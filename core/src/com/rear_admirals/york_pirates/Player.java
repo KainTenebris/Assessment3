@@ -59,5 +59,5 @@ public class Player {
 
     public void addPoints(int amount) { points += amount; }
 
-    public void addGold(int amount) { gold = gold + amount; }
+    public void addGold(int amount) { gold += amount; }
 }

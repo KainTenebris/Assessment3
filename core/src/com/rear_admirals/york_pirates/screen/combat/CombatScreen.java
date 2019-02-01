@@ -16,8 +16,8 @@ import com.rear_admirals.york_pirates.Ship;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Stack;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class CombatScreen extends BaseScreen {
 
@@ -141,7 +141,6 @@ public class CombatScreen extends BaseScreen {
                     textAnimation = false;
                     textBox.setText(displayText);
                 } else {
-                    System.out.println("Button clicked, running combat handler with event " + queuedCombatEvent.toString());
                     textBox.setText("");
                     updateHP();
                     combatHandler(queuedCombatEvent);
@@ -218,8 +217,6 @@ public class CombatScreen extends BaseScreen {
         enemyAttacks.add(Attack.attackSwivel);
 
         Gdx.input.setInputProcessor(uiStage);
-
-        System.out.println(viewwidth + "," + viewheight + " AND " + Gdx.graphics.getWidth() + "," + Gdx.graphics.getHeight());
     }
 
     @Override
@@ -260,8 +257,6 @@ public class CombatScreen extends BaseScreen {
     // combat Handler
     //  This function handles the ship combat using BattleEvent enum type
     public void combatHandler(BattleEvent status){
-        //Debugging
-        System.out.println("Running combatHandler with status: " + status.toString());
 
         if (!combatStack.empty()){
             currentAttack = combatStack.pop();
@@ -274,18 +269,14 @@ public class CombatScreen extends BaseScreen {
             case PLAYER_MOVE:
                 toggleAttackStage();
                 textBox.setStyle(pirateGame.getSkin().get("default", TextButton.TextButtonStyle.class));
-                System.out.println("Running players move");
                 if (currentAttack.isSkipMoveStatus()) {
-                    System.out.println("Charging attack");
                     currentAttack.setSkipMoveStatus(false);
                     combatStack.push(currentAttack);
                     dialog("Charging attack " + currentAttack.getName(), BattleEvent.ENEMY_MOVE);
                 } else if (currentAttack.getName() == "FLEE") {
                     if (currentAttack.doAttack(player.getPlayerShip(), enemy) == 1) {
-                        System.out.println("Flee successful");
                         dialog("Flee successful!", BattleEvent.PLAYER_FLEES);
                     } else {
-                        System.out.println("Flee Failed");
                         dialog("Flee failed.", BattleEvent.ENEMY_MOVE);
                     }
                 } else {
@@ -296,15 +287,11 @@ public class CombatScreen extends BaseScreen {
                     }
 
                     if (damage == 0) {
-                        System.out.println("Player "+currentAttack.getName() + " MISSED, damage dealt: " + damage + ", Player Ship Health: " + player.getPlayerShip().getHealth() + ", Enemy Ship Health: " + enemy.getHealth());
                         dialog("Attack Missed", BattleEvent.ENEMY_MOVE);
                     } else {
-                        System.out.println("Player "+currentAttack.getName() + " SUCCESSFUL, damage dealt: " + damage + ", Player Ship Health: " + player.getPlayerShip().getHealth() + ", Enemy Ship Health: " + enemy.getHealth());
                         if (player.getPlayerShip().getHealth() <= 0) {
-                            System.out.println("Player has died");
                             dialog("You dealt " + damage + " with " + currentAttack.getName() + "!", BattleEvent.PLAYER_DIES);
                         } else if (enemy.getHealth() <= 0) {
-                            System.out.println("Enemy has died");
                             dialog("You dealt " + damage + " with " + currentAttack.getName() + "!", BattleEvent.ENEMY_DIES);
                         } else{
                             dialog("You dealt " + damage + " with " + currentAttack.getName() + "!", BattleEvent.ENEMY_MOVE);
@@ -313,28 +300,23 @@ public class CombatScreen extends BaseScreen {
                 }
                 break;
             case ENEMY_MOVE:
-                System.out.println("Running enemy move");
                 textBox.setStyle(pirateGame.getSkin().get("red", TextButton.TextButtonStyle.class));
-                Attack enemyAttack = enemyAttacks.get(ThreadLocalRandom.current().nextInt(0,3));
+                Random ran = new Random();
+                Attack enemyAttack = enemyAttacks.get(ran.nextInt(3));
                 int damage = enemyAttack.doAttack(enemy, player.getPlayerShip());
                 String message;
                 if (damage == 0){
-                    System.out.println("Enemy " + enemyAttack.getName() + " ATTACK MISSED");
                     message = "Enemies " + enemyAttack.getName() + " missed.";
                 } else {
-                    System.out.println("ENEMY " + enemyAttack.getName() + " SUCCESSFUL, damage dealt: " + damage + ", Player Ship Health: " + player.getPlayerShip().getHealth() + ", Enemy Ship Health: " + enemy.getHealth());
                     message = "Enemy "+enemy.getName()+ " dealt " + damage + " with " + enemyAttack.getName()+ "!";
                 }
 
                 if (player.getPlayerShip().getHealth() <= 0) {
-                    System.out.println("Player has died");
                     dialog("Enemies " + enemyAttack.getName() + " hit you for "+ damage, BattleEvent.PLAYER_DIES);
                 } else if (enemy.getHealth() <= 0) {
-                    System.out.println("Enemy has died");
                     dialog("Enemies " + enemyAttack.getName() + " hit you for "+ damage, BattleEvent.ENEMY_DIES);
                 } else {
                     if (currentAttack.isSkipMove() != currentAttack.isSkipMoveStatus()){
-                        System.out.println("Loading charged attack");
                         dialog(message, BattleEvent.PLAYER_MOVE);
                     } else {
                         dialog(message, BattleEvent.NONE);
@@ -368,7 +350,6 @@ public class CombatScreen extends BaseScreen {
                 player.getPlayerShip().setSpeed(0);
                 player.getPlayerShip().setAccelerationXY(0,0);
                 player.getPlayerShip().setAnchor(true);
-                System.out.println("END OF COMBAT");
                 toggleAttackStage();
                 pirateGame.setScreen(pirateGame.getSailingScene());
                 break;

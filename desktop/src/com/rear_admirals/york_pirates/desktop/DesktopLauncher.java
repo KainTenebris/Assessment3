@@ -7,6 +7,8 @@ import com.rear_admirals.york_pirates.PirateGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.fullscreen = true;
+		config.title = "York Pirates!";
 		new LwjglApplication(new PirateGame(), config);
 	}
 }

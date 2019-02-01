@@ -21,7 +21,7 @@ import com.rear_admirals.york_pirates.base.BaseScreen;
 import com.rear_admirals.york_pirates.Ship;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 import static com.rear_admirals.york_pirates.College.*;
 import static com.rear_admirals.york_pirates.PirateGame.Chemistry;
@@ -145,9 +145,6 @@ public class SailingScreen extends BaseScreen {
                 else if (objectName.equals("vanbrugh")) solid.setCollege(Vanbrugh);
                 else if (objectName.equals("chemistry"))solid.setDepartment(Chemistry);
                 else if (objectName.equals("physics")) solid.setDepartment(Physics);
-                else{
-                    System.out.println("Not college/department: " + solid.getName());
-                }
                 obstacleList.add(solid);
             } else {
                 System.err.println("Unknown PhysicsData object.");
@@ -179,9 +176,6 @@ public class SailingScreen extends BaseScreen {
 
         InputMultiplexer im = new InputMultiplexer(uiStage, mainStage);
         Gdx.input.setInputProcessor(im);
-
-        // Debug processor
-//        System.out.println("IP: im");
     }
 
     @Override
@@ -190,15 +184,15 @@ public class SailingScreen extends BaseScreen {
         goldLabel.setText(Integer.toString(pirateGame.getPlayer().getGold()));
         this.playerShip.playerMove(delta);
 
-        Boolean x = false;
+        boolean x = false;
+        Random ran = new Random();
         for (BaseActor region : regionList) {
             String name = region.getName();
             if (playerShip.overlaps(region, false)) {
                 x = true;
                 mapMessage.setText(capitalizeFirstLetter(name.substring(0, name.length() - 6)) + " Territory");
-                int enemyChance = ThreadLocalRandom.current().nextInt(0, 10001);
+                int enemyChance = ran.nextInt(10001);
                 if (enemyChance <= 10) {
-                    System.out.println("Enemy Found in " + name);
                     College college = region.getCollege();
                     if (!playerShip.getCollege().getAlly().contains(college)) {
                         System.out.println(name);
@@ -213,7 +207,7 @@ public class SailingScreen extends BaseScreen {
         }
 
 
-        Boolean y = false;
+        boolean y = false;
         for (BaseActor obstacle : obstacleList) {
             String name = obstacle.getName();
             if (playerShip.overlaps(obstacle, true)) {
@@ -227,20 +221,14 @@ public class SailingScreen extends BaseScreen {
                 else if (!(obstacle.getCollege() == null)) {
                     mapMessage.setText(capitalizeFirstLetter(name) + " Island");
                     hintMessage.setText("Press F to interact");
-//                    System.out.println("A college");
                     College college = obstacle.getCollege();
                     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-                        System.out.println("A college");
-                        if (!playerShip.getCollege().getAlly().contains(college) && obstacle.getCollege().isBossDead() == false) {
-                            System.out.println("Enemy");
+                        if (!playerShip.getCollege().getAlly().contains(college) && !obstacle.getCollege().isBossDead()) {
                             pirateGame.setScreen(new CombatScreen(pirateGame, new Ship(15, 15, 15, Brig, college, college.getName() + " Boss", true)));
                         } else {
-                            System.out.println("Ally");
                             pirateGame.setScreen(new CollegeScreen(pirateGame, college));
                         }
                     }
-                } else {
-//                    System.out.println("Pure obstacle");
                 }
             }
         }

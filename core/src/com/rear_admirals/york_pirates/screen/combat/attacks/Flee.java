@@ -2,7 +2,7 @@ package com.rear_admirals.york_pirates.screen.combat.attacks;
 
 import com.rear_admirals.york_pirates.Ship;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class Flee extends Attack {
 
@@ -14,7 +14,8 @@ public class Flee extends Attack {
     // Flee requires a custom doAttack function and as such has its own class.
     @Override
     public int doAttack(Ship attacker, Ship defender) {
-        int fleeSuccess = ThreadLocalRandom.current().nextInt(0, 101);
+        Random ran = new Random();
+        int fleeSuccess = ran.nextInt(101);
         if (fleeSuccess >= 30) {
             return 1;
         } else {

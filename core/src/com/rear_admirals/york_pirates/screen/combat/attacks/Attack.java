@@ -2,7 +2,8 @@ package com.rear_admirals.york_pirates.screen.combat.attacks;
 
 import com.rear_admirals.york_pirates.Ship;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
+
 
 public class Attack {
 	protected String name;
@@ -21,7 +22,7 @@ public class Attack {
 		this.dmgMultiplier = 3;
 		this.accMultiplier = 1;
 		this.skipMove = false;
-		this.skipMoveStatus = skipMove;
+		this.skipMoveStatus = false;
 	}
 
 	// Custom constructor. Can be used to create any attack which applies a multiple of the attacker's damage
@@ -48,7 +49,8 @@ public class Attack {
 
 	// New function used to check if an attack hits the enemy.
 	protected boolean doesHit( int shipAcc, int accPercent) {
-		int random = ThreadLocalRandom.current().nextInt(0, 101);
+		Random ran = new Random();
+		int random = ran.nextInt(101);
 		if (accPercent * (1+(shipAcc-3)*0.02) > random){
 			return true;
 		} else{

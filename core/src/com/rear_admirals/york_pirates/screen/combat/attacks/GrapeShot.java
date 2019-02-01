@@ -16,14 +16,12 @@ public class GrapeShot extends Attack {
             if (doesHit(attacker.getAccuracy(), this.accPercent)) {
                 this.damage += attacker.getAttack() * this.dmgMultiplier; // Landed shots do half as much damage as a swivel shot.
                 System.out.println("GRAPE HIT");
-            } else {
-                System.out.println("GRAPE MISSED");
             }
         }
         defender.damage(this.damage);
         return this.damage;
     }
 
-    public static Attack attackGrape = new GrapeShot("Grape Shot","Fire a bundle of smaller cannonballs at the enemy.",1,1,false, 25);
+    public static Attack attackGrape = new GrapeShot("Grape Shot","Fire a cluster of smaller cannonballs at the enemy.",1,1,false, 25);
 }
 

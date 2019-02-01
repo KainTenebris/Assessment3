@@ -70,7 +70,6 @@ public class DepartmentScreen extends BaseScreen {
                 }
                 else {
                     if (player.payGold(toHeal / 10)) {
-                        System.out.println("charged");
                         player.getPlayerShip().setHealth(player.getPlayerShip().getHealthMax());
                         message.setText("Successful repair");
                     } else {
@@ -93,7 +92,6 @@ public class DepartmentScreen extends BaseScreen {
     @Override
     public void update(float delta){
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-            System.out.println("ESCAPE");
             pirateGame.setScreen(pirateGame.getSailingScene());
         }
 

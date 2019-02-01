@@ -39,9 +39,6 @@ public class MainMenu extends BaseScreen {
         screen_width = stage.getWidth();
         screen_height = stage.getHeight();
 
-        // Debugging
-        System.out.println(screen_width + ", " + screen_height);
-
         Label title = new Label("Rear Admirals", pirateGame.getSkin(), "title");
         title.setAlignment(Align.center);
 
@@ -100,7 +97,6 @@ public class MainMenu extends BaseScreen {
         stage.addActor(tableContainer);
 
         Gdx.input.setInputProcessor(stage);
-        System.out.println("IP: stage");
     }
 
     @Override
