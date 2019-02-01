@@ -2,6 +2,7 @@ package com.rear_admirals.york_pirates;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +18,7 @@ public class PirateGame extends Game {
 	private SailingScreen sailingScene;
 	public static Department Chemistry;
 	public static Department Physics;
+	//public static Department department;
 
 	public void create(){
 		Gdx.graphics.setTitle("York Pirates!");
@@ -27,6 +29,7 @@ public class PirateGame extends Game {
         player = new Player();
 		Chemistry = new Department("Chemistry", "Attack", this);
 		Physics = new Department("Physics", "Defence", this);
+		//department = new Department("name", "Attack/Defence", this);
 		this.sailingScene = new SailingScreen(this);
         setScreen(new MainMenu(this));
 	}

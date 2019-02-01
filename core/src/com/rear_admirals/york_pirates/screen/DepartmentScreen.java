@@ -51,7 +51,7 @@ public class DepartmentScreen extends BaseScreen {
         final Label message = new Label("", main.getSkin());
         this.toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
 
-        final TextButton heal = new TextButton("Repair Ship for "+ Integer.toString(toHeal/10) +" gold", main.getSkin());
+        final TextButton heal = new TextButton("Repair Ship for "+ toHeal/10 +" gold", main.getSkin());
         upgrade.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){

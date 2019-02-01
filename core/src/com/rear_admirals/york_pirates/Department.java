@@ -34,9 +34,9 @@ public class Department {
 
     public int getPrice() {
         if (product == "Defence") {
-            return (int) (base_price * pow(2, max(0, pirateGame.getPlayer().getPlayerShip().getDefence() - 3)));
+            return base_price;
         } else if (product == "Attack"){
-            return (int) (base_price * pow(2, max(0, pirateGame.getPlayer().getPlayerShip().getAttack() - 3)));
+            return base_price;
         }
         else {return 0;}
     }

@@ -24,23 +24,23 @@ public class Ship extends PhysicsActor {
     private boolean isBoss = false;
 
     // For testing purposes only. Use of this constructor in-game WILL cause errors.
-    @Deprecated
-    public Ship(){
-        this.name = "DEBUG SHIP";
-        this.attack = 5;
-        this.defence = 5;
-        this.accuracy = 5;
-        this.healthMax = defence*20;
-        this.health = healthMax;
-        this.college = Derwent;
-    }
+//    @Deprecated
+//    public Ship(){
+//        this.name = "DEBUG SHIP";
+//        this.attack = 5;
+//        this.defence = 5;
+//        this.accuracy = 5;
+//        this.healthMax = defence*20;
+//        this.health = healthMax;
+//        this.college = Derwent;
+//    }
 
     public Ship(ShipType type, College college) {
         this.name = college.getName() + " " + type.getName();
         this.attack = type.getAttack();
         this.defence = type.getDefence();
         this.accuracy = type.getAccuracy();
-        this.healthMax = defence*20;
+        this.healthMax = type.getHealth() + this.defence;
         this.health = healthMax;
         this.college = college;
         this.type = type;
@@ -53,7 +53,7 @@ public class Ship extends PhysicsActor {
         this.attack = type.getAttack();
         this.defence = type.getDefence();
         this.accuracy = type.getAccuracy();
-        this.healthMax = defence*20;
+        this.healthMax = type.getHealth() + this.defence;
         this.health = healthMax;
         this.college = college;
         this.type = type;
@@ -72,7 +72,7 @@ public class Ship extends PhysicsActor {
         this.accuracy = accuracy;
         this.type = type;
         this.name = name;
-        this.healthMax = defence*20;
+        this.healthMax = type.getHealth() + defence;
         this.college = college;
         this.health = healthMax;
         this.sailingTexture = new Texture(Gdx.files.internal("ship (1).png"));
@@ -161,7 +161,7 @@ public class Ship extends PhysicsActor {
 
     public void setDefence(int defence) {
         this.defence = defence;
-        this.healthMax = defence * 20;
+        this.healthMax = type.getHealth() + defence;
     }
 
     public void setAccuracy(int accuracy) {
