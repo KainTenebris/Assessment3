@@ -1,6 +1,7 @@
 package com.rear_admirals.york_pirates.screen.combat;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.rear_admirals.york_pirates.screen.MainMenu;
 import com.rear_admirals.york_pirates.screen.combat.attacks.*;
 import com.rear_admirals.york_pirates.PirateGame;
 import com.rear_admirals.york_pirates.Player;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+
+import static com.rear_admirals.york_pirates.ShipType.Warship;
 
 public class CombatScreen extends BaseScreen {
 
@@ -74,6 +78,10 @@ public class CombatScreen extends BaseScreen {
         this.player = pirateGame.getPlayer();
         this.enemy = enemy;
 
+        if(this.enemy.getType().equals("Warship")) {
+            this.player.getPlayerShip().setHealth(this.player.getPlayerShip().getHealthMax());
+        }
+
         // Load the skin for this screen
         pirateGame.setSkin(new Skin(Gdx.files.internal("flat-earth-ui.json")));
 
@@ -83,7 +91,7 @@ public class CombatScreen extends BaseScreen {
         button_pad_bottom = viewheight/24f;
         button_pad_right = viewwidth/32f;
 
-        // Insantiate the image textures for use within the scene as backgrounds.
+        // Instantiate the image textures for use within the scene as backgrounds.
         bg_texture = new Texture("water_texture_sky.png");
         background = new Image(bg_texture);
         background.setSize(viewwidth, viewheight);
@@ -325,10 +333,7 @@ public class CombatScreen extends BaseScreen {
                 break;
             case PLAYER_DIES:
                 textBox.setStyle(pirateGame.getSkin().get("red", TextButton.TextButtonStyle.class));
-                player.addGold(-player.getGold()/2);
-                player.setPoints(0);
-                player.getPlayerShip().setHealth(player.getPlayerShip().getHealthMax()/4);
-                dialog("YOU HAVE DIED", BattleEvent.SCENE_RETURN);
+                dialog("YOU HAVE DIED. Final Score: " + pirateGame.getPlayer().getPoints(), BattleEvent.SCENE_RETURN);
                 break;
             case ENEMY_DIES:
                 textBox.setStyle(pirateGame.getSkin().get("default", TextButton.TextButtonStyle.class));
@@ -346,6 +351,13 @@ public class CombatScreen extends BaseScreen {
                 combatHandler(BattleEvent.SCENE_RETURN);
                 break;
             case SCENE_RETURN:
+                if(player.getPlayerShip().getHealth() <= 0) {
+                    while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+
+                    }
+                    pirateGame.reset();
+                    pirateGame.setScreen(new MainMenu(pirateGame));
+                }
                 enemy.setVisible(false);
                 player.getPlayerShip().setSpeed(0);
                 player.getPlayerShip().setAccelerationXY(0,0);

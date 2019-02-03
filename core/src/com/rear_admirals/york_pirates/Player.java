@@ -6,7 +6,6 @@ import com.rear_admirals.york_pirates.screen.combat.attacks.GrapeShot;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.rear_admirals.york_pirates.College.*;
 import static com.rear_admirals.york_pirates.ShipType.*;
 
 public class Player {
@@ -16,7 +15,7 @@ public class Player {
     public static List<Attack> attacks = new ArrayList<Attack>();
 
     public Player() {
-	    this.playerShip = new Ship(Player, "Your Ship", Derwent);
+	    this.playerShip = new Ship(Player, "Your Ship", PirateGame.colleges.get("Derwent"));
         this.gold = 0;
         this.points = 0;
 
@@ -36,6 +35,10 @@ public class Player {
     }
 
     public Ship getPlayerShip() { return this.playerShip; }
+
+    public void setPlayerShip(Ship ship) {
+        this.playerShip = ship;
+    }
 
     public int getPoints() { return points; }
 

@@ -5,11 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rear_admirals.york_pirates.College;
-import com.rear_admirals.york_pirates.ShipType;
 import com.rear_admirals.york_pirates.base.PhysicsActor;
 
-import static com.rear_admirals.york_pirates.College.Derwent;
 
 public class Ship extends PhysicsActor {
 	private String name;

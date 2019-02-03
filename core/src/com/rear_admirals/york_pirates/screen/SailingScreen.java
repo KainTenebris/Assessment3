@@ -2,6 +2,7 @@ package com.rear_admirals.york_pirates.screen;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -20,18 +21,15 @@ import com.rear_admirals.york_pirates.PirateGame;
 import com.rear_admirals.york_pirates.base.BaseScreen;
 import com.rear_admirals.york_pirates.Ship;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.rear_admirals.york_pirates.College.*;
-import static com.rear_admirals.york_pirates.PirateGame.Chemistry;
-import static com.rear_admirals.york_pirates.PirateGame.Physics;
+import static com.rear_admirals.york_pirates.PirateGame.*;
 import static com.rear_admirals.york_pirates.ShipType.*;
 
 public class SailingScreen extends BaseScreen {
 
-    private Ship playerShip;
+    public Ship playerShip;
 
     //Map Variables
     private ArrayList<BaseActor> obstacleList;
@@ -56,14 +54,18 @@ public class SailingScreen extends BaseScreen {
     private Label goldLabel;
     private Label mapMessage;
     private Label hintMessage;
-    private List<Label> objectiveLabels;
-    private Label derwentObjective;//Etc
+    private Label bossMessage;
+    private LinkedHashMap<String, Label> objectiveLabels;
 
     private Float timer;
     private int seconds;
 
-    public SailingScreen(final PirateGame main){
+    private boolean isFinalBossReady;
+
+    public SailingScreen(PirateGame main){
         super(main);
+
+        isFinalBossReady = false;
 
         playerShip = main.getPlayer().getPlayerShip();
 
@@ -79,12 +81,21 @@ public class SailingScreen extends BaseScreen {
         goldLabel = new Label(Integer.toString(main.getPlayer().getGold()), main.getSkin(), "default_black");
         goldLabel.setAlignment(Align.left);
 
-        objectiveLabels = new ArrayList<Label>();
-        objectiveLabels.add(new Label("[X] Ally Derwent", main.getSkin(), "default_black"));
-        objectiveLabels.add(new Label("[ ] Ally James", main.getSkin(), "default_black"));
-        objectiveLabels.add(new Label("[ ] Ally Vanbrugh", main.getSkin(), "default_black"));
-        objectiveLabels.add(new Label("[ ] Ally OtherCollege", main.getSkin(), "default_black"));
-        objectiveLabels.add(new Label("[ ] Ally OtherCollege2", main.getSkin(), "default_black"));
+        objectiveLabels = new LinkedHashMap<String, Label>();
+
+        Table objectivesTable = new Table();
+
+        objectiveLabels.put("objectives title", new Label("Conquer all of York!", main.getSkin(), "default_black"));
+
+        for(College college : colleges.values()) {
+            if(playerShip.getCollege() == college) {
+                objectiveLabels.put(college.getName(), new Label(college.getName() + " Allied: " + "Y", main.getSkin(), "default_black"));
+            } else {
+                objectiveLabels.put(college.getName(), new Label(college.getName() + "Allied: " + "N", main.getSkin(), "default_black"));
+            }
+        }
+
+        objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: N", main.getSkin(), "default_black"));
 
         uiTable.add(pointsTextLabel);
         uiTable.add(pointsLabel).width(pointsTextLabel.getWidth());
@@ -92,8 +103,7 @@ public class SailingScreen extends BaseScreen {
         uiTable.add(goldTextLabel).fill();
         uiTable.add(goldLabel).fill();
 
-        Table objectivesTable = new Table();
-        for(Label label : objectiveLabels) {
+        for(Label label : objectiveLabels.values()) {
             objectivesTable.row();
             objectivesTable.add(label).fill();
         }
@@ -108,11 +118,14 @@ public class SailingScreen extends BaseScreen {
 
         mapMessage = new Label("", main.getSkin(), "default_black");
         hintMessage = new Label("", main.getSkin(),"default_black");
+        bossMessage = new Label("", main.getSkin(), "default_black");
 
         Table messageTable = new Table();
         messageTable.add(mapMessage);
         messageTable.row();
         messageTable.add(hintMessage);
+        messageTable.row();
+        messageTable.add(bossMessage);
 
         messageTable.setFillParent(true);
         messageTable.top();
@@ -130,7 +143,9 @@ public class SailingScreen extends BaseScreen {
         tiledCamera.setToOrtho(false, viewwidth, viewheight);
         tiledCamera.update();
 
-        MapObjects objects = tiledMap.getLayers().get("ObjectData").getObjects();
+        MapLayers maplayers = tiledMap.getLayers();
+
+        MapObjects objects = maplayers.get("ObjectData").getObjects();
         for (MapObject object : objects) {
             String name = object.getName();
 
@@ -145,7 +160,7 @@ public class SailingScreen extends BaseScreen {
             }
         }
 
-        objects = tiledMap.getLayers().get("PhysicsData").getObjects();
+        objects = maplayers.get("PhysicsData").getObjects();
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
                 RectangleMapObject rectangleObject = (RectangleMapObject) object;
@@ -158,11 +173,11 @@ public class SailingScreen extends BaseScreen {
                 solid.setRectangleBoundary();
                 String objectName = object.getName();
 
-                if (objectName.equals("derwent")) solid.setCollege(Derwent);
-                else if (objectName.equals("james")) solid.setCollege(James);
-                else if (objectName.equals("vanbrugh")) solid.setCollege(Vanbrugh);
-                else if (objectName.equals("chemistry"))solid.setDepartment(Chemistry);
-                else if (objectName.equals("physics")) solid.setDepartment(Physics);
+                if (objectName.equals("derwent")) solid.setCollege(colleges.get("Derwent"));
+                else if (objectName.equals("james")) solid.setCollege(colleges.get("James"));
+                else if (objectName.equals("vanbrugh")) solid.setCollege(colleges.get("Vanbrugh"));
+                else if (objectName.equals("chemistry"))solid.setDepartment(departments.get("Chemistry"));
+                else if (objectName.equals("physics")) solid.setDepartment(departments.get("Physics"));
                 //else if(objectName.equals("")) solid.setxyz(abc);
                 obstacleList.add(solid);
             } else {
@@ -170,7 +185,7 @@ public class SailingScreen extends BaseScreen {
             }
         }
 
-        objects = tiledMap.getLayers().get("RegionData").getObjects();
+        objects = maplayers.get("RegionData").getObjects();
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
                 RectangleMapObject rectangleObject = (RectangleMapObject) object;
@@ -182,10 +197,10 @@ public class SailingScreen extends BaseScreen {
                 region.setRectangleBoundary();
                 region.setName(object.getName());
 
-                if (object.getName().equals("derwentregion")) region.setCollege(Derwent);
-                else if (object.getName().equals("jamesregion")) region.setCollege(James);
-                else if (object.getName().equals("vanbrughregion")) region.setCollege(Vanbrugh);
-                //else if (object.getName().equals("collegeregion")) region.setCollege(college);
+                if (object.getName().equals("derwentregion")) region.setCollege(colleges.get("Derwent"));
+                else if (object.getName().equals("jamesregion")) region.setCollege(colleges.get("James"));
+                else if (object.getName().equals("vanbrughregion")) region.setCollege(colleges.get("Vanbrugh"));
+                //else if (object.getName().equals("collegeregion")) region.setCollege(colleges.get("college"));
                 regionList.add(region);
             } else {
                 System.err.println("Unknown RegionData object.");
@@ -204,6 +219,19 @@ public class SailingScreen extends BaseScreen {
         removeList.clear();
         goldLabel.setText(Integer.toString(pirateGame.getPlayer().getGold()));
         this.playerShip.playerMove(delta);
+
+//        if(isFinalBossReady && Gdx.input.isKeyPressed(Input.Keys.U)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.U)) {
+            goToBossLevel();
+            objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: Y", pirateGame.getSkin(), "default_black"));
+            uiStage.addActor(new Label("You have conquered York! Final score: " + pirateGame.getPlayer().getPoints() + "\nPress any key to return to the main menu.",
+                    pirateGame.getSkin(), "default_black"));
+            while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+
+            }
+            pirateGame.reset();
+            pirateGame.setScreen(new MainMenu(pirateGame));
+        }
 
         boolean x = false;
         Random ran = new Random();
@@ -254,7 +282,21 @@ public class SailingScreen extends BaseScreen {
                     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                         if (!isAlly && !obstacle.getCollege().isBossDead()) {
                             pirateGame.setScreen(new CombatScreen(pirateGame, new Ship(15, 15, 15, Galleon, college, college.getName() + " Boss", true)));
-
+                            if(playerShip.getCollege().getAlly().contains(college)) {
+                                objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "Y");
+                            }
+                            College playerCollege = playerShip.getCollege();
+                            boolean allAllied = true;
+                            for(College col : colleges.values()) {
+                                if(!playerCollege.getAlly().contains(col)) {
+                                    allAllied = false;
+                                    break;
+                                }
+                            }
+                            if(allAllied) {
+                                isFinalBossReady = true;
+                                bossMessage.setText("Press U to fight the YSJ Admiral and conquer York!");
+                            }
                         } else {
                             pirateGame.setScreen(new CollegeScreen(pirateGame, college));
                         }
@@ -300,6 +342,7 @@ public class SailingScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            pirateGame.reset();
             pirateGame.setScreen(new MainMenu(pirateGame));
         }
         uiStage.act(delta);
@@ -337,5 +380,9 @@ public class SailingScreen extends BaseScreen {
             return original;
         }
         return original.substring(0, 1).toUpperCase() + original.substring(1);
+    }
+
+    public void goToBossLevel() {
+        pirateGame.setScreen(new BossScreen(pirateGame));
     }
 }

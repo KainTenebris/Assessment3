@@ -14,7 +14,7 @@ import com.rear_admirals.york_pirates.base.BaseScreen;
 import com.rear_admirals.york_pirates.screen.combat.CombatScreen;
 import com.rear_admirals.york_pirates.Ship;
 
-import static com.rear_admirals.york_pirates.PirateGame.Chemistry;
+import static com.rear_admirals.york_pirates.PirateGame.*;
 import static com.rear_admirals.york_pirates.ShipType.*;
 import static com.rear_admirals.york_pirates.College.*;
 
@@ -44,15 +44,17 @@ public class MainMenu extends BaseScreen {
         title.setAlignment(Align.center);
 
         TextButton sailing_mode = new TextButton("Start Game", pirateGame.getSkin()); // Starts sailing mode.
-        TextButton combat_mode = new TextButton("Go to Combat Mode", pirateGame.getSkin());
-        TextButton college_mode = new TextButton("Go to College screen", pirateGame.getSkin());
-        TextButton department_mode = new TextButton("Go to Department screen", pirateGame.getSkin());
+        TextButton quickplay = new TextButton("Quick Play", pirateGame.getSkin());
+        TextButton quit = new TextButton("Quit", pirateGame.getSkin());
 
         // Allows button to be clickable, and sets process for when clicked.
-        combat_mode.addListener(new ClickListener(){
+        quickplay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                pirateGame.setScreen(new CombatScreen(pirateGame, new Ship(Brig, Derwent)));
+                Ship newPlayerShip = new Ship(Warship, pirateGame.getPlayer().getPlayerShip().getCollege());
+                pirateGame.getPlayer().setPlayerShip(newPlayerShip);
+                ((SailingScreen)pirateGame.getSailingScene()).playerShip = newPlayerShip;
+                pirateGame.setScreen(pirateGame.getSailingScene());
                 dispose();
             }
         });
@@ -65,19 +67,11 @@ public class MainMenu extends BaseScreen {
             }
         });
 
-        college_mode.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                pirateGame.setScreen(new CollegeScreen(pirateGame, Derwent));
-                dispose();
-            }
-        });
 
-        department_mode.addListener(new ClickListener(){
+        quit.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                pirateGame.setScreen(new DepartmentScreen(pirateGame, Chemistry));
-                dispose();
+            public void clicked(InputEvent event, float x, float y) {
+               Gdx.app.exit();
             }
         });
 
@@ -87,13 +81,9 @@ public class MainMenu extends BaseScreen {
         table.row(); // Ends the current row
         table.add(sailing_mode).uniform().padBottom(viewheight/40).size(viewwidth/2,viewheight/10);
         table.row();
-        table.add(new Label("These are for demo purposes, to show implementation of combat and colleges.", pirateGame.getSkin()));
+        table.add(quickplay).uniform().padBottom(viewheight/40).fill();
         table.row();
-        table.add(combat_mode).uniform().padBottom(viewheight/40).fill();
-        table.row();
-        table.add(college_mode).uniform().fill().padBottom(viewheight/40);
-        table.row();
-        table.add(department_mode).uniform().fill();
+        table.add(quit).uniform().fill().padBottom(viewheight/40);
 
         stage.addActor(tableContainer);
 
@@ -104,14 +94,10 @@ public class MainMenu extends BaseScreen {
     public void update(float delta) { }
 
     public void render(float delta){
-//        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-//            Gdx.app.exit();
-//        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         stage.act();
-
     }
 
     @Override

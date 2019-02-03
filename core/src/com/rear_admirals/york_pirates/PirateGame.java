@@ -2,6 +2,7 @@ package com.rear_admirals.york_pirates;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,28 +11,45 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.rear_admirals.york_pirates.screen.MainMenu;
 import com.rear_admirals.york_pirates.screen.SailingScreen;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class PirateGame extends Game {
     private SpriteBatch batch;
     private BitmapFont font;
     private Skin skin;
     private Player player;
-	private SailingScreen sailingScene;
-	public static Department Chemistry;
-	public static Department Physics;
-	//public static Department department;
+	private Screen sailingScene;
+	public static HashMap<String, Department> departments;
+	public static HashMap<String, College> colleges;
 
 	public void create(){
+		reset();
+        setScreen(new MainMenu(this));
+	}
+
+	public void reset() {
 		Gdx.graphics.setTitle("York Pirates!");
 		this.skin = new Skin(Gdx.files.internal("flat-earth-ui.json"));
 		batch = new SpriteBatch();
-        //Use LibGDX's default Arial font.
-        font = new BitmapFont();
-        player = new Player();
-		Chemistry = new Department("Chemistry", "Attack", this);
-		Physics = new Department("Physics", "Defence", this);
-		//department = new Department("name", "Attack/Defence", this);
+		//Use LibGDX's default Arial font.
+		font = new BitmapFont();
+
+		departments = new HashMap<String, Department>();
+		colleges = new HashMap<String, College>();
+
+		departments.put("Chemistry", new Department("Chemistry", "Attack", this));
+		departments.put("Physics", new Department("Physics", "Defence", this));
+//        departments.put("Computer Science", new Department("Computer Science", "Minigame", this));
+
+		colleges.put("Derwent", new College("Derwent"));
+		colleges.put("Vanbrugh", new College("Vanbrugh"));
+		colleges.put("James", new College("James"));
+//        colleges.put("College1", new College("College1"));
+//        colleges.put("College2", new College("College2"));
+
+		player = new Player();
 		this.sailingScene = new SailingScreen(this);
-        setScreen(new MainMenu(this));
 	}
 
 	@Override
@@ -68,5 +86,7 @@ public class PirateGame extends Game {
 
 	public Player getPlayer() { return this.player; }
 
-	public SailingScreen getSailingScene() { return this.sailingScene; }
+	public Screen getSailingScene() { return this.sailingScene; }
+
+	public void setSailingScene(Screen screen) { this.sailingScene = screen; }
 }
