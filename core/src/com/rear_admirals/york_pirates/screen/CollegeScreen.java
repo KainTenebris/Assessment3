@@ -22,41 +22,32 @@ public class CollegeScreen extends BaseScreen {
     public CollegeScreen(PirateGame main, College college){
         super(main);
         this.player = main.getPlayer();
-
-        Table uiTable = new Table();
-
-        Label pointsTextLabel = new Label("Points: ", main.getSkin());
-        pointsLabel = new Label(Integer.toString(main.getPlayer().getPoints()), main.getSkin());
-        pointsLabel.setAlignment(Align.left);
-
-        Label goldTextLabel = new Label("Gold:", main.getSkin());
-        goldLabel = new Label(Integer.toString(main.getPlayer().getGold()), main.getSkin());
-        goldLabel.setAlignment(Align.left);
-
-        uiTable.add(pointsTextLabel);
-        uiTable.add(pointsLabel).width(pointsTextLabel.getWidth());
-        uiTable.row();
-        uiTable.add(goldTextLabel).fill();
-        uiTable.add(goldLabel).fill();
-
-        uiTable.align(Align.topRight);
-        uiTable.setFillParent(true);
-
-        uiStage.addActor(uiTable);
-
-        Table optionsTable = new Table();
-        optionsTable.setFillParent(true);
-        Label title = new Label("Welcome to " + college.getName(), main.getSkin(), "title");
-        final Label message = new Label("", main.getSkin());
-        optionsTable.add(title);
-        optionsTable.row();
-
-
         toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
+
+        
+        
+        //Labels
+        //create the labels
+        Label pointsTextLabel = new Label("Points: ", main.getSkin());
+        Label goldTextLabel = new Label("Gold:", main.getSkin());
+        final Label message = new Label("", main.getSkin());
+        Label title = new Label("Welcome to " + college.getName(), main.getSkin(), "title");
+        pointsLabel = new Label(Integer.toString(main.getPlayer().getPoints()), main.getSkin());
+        goldLabel = new Label(Integer.toString(main.getPlayer().getGold()), main.getSkin());
+        
+        //align the labels
+        pointsLabel.setAlignment(Align.left);
+        goldLabel.setAlignment(Align.left);
+        
+        
+        
+        //Buttons
         final TextButton heal = new TextButton("Repair Ship for "+ Integer.toString(toHeal/10) +" gold", main.getSkin());
 
+        //when you are not damaged
         if (toHeal == 0) { heal.setText("Your ship is already fully repaired!"); }
-
+        
+        //heal button is clickable
         heal.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -74,16 +65,38 @@ public class CollegeScreen extends BaseScreen {
                 }
             }
         });
+        
+        
+        
+        //Tables
+        //create the tables
+        Table uiTable = new Table();
+        Table optionsTable = new Table();
+        
+        //add labels to tables
+        uiTable.add(pointsTextLabel);
+        uiTable.add(pointsLabel).width(pointsTextLabel.getWidth());
+        uiTable.row();
+        uiTable.add(goldTextLabel).fill();
+        uiTable.add(goldLabel).fill();
+        optionsTable.add(title);
+        optionsTable.row();
         optionsTable.add(heal);
-
-
         optionsTable.row();
         optionsTable.add(message);
 
+        //align the tables
+        uiTable.align(Align.topRight);
+        uiTable.setFillParent(true);
+
+        
+        
+        //Stages
+        uiStage.addActor(uiTable);
         mainStage.addActor(optionsTable);
         Gdx.input.setInputProcessor(mainStage);
     }
-
+    
     @Override
     public void update(float delta){
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
