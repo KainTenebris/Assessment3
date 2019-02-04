@@ -39,8 +39,8 @@ public class PirateGame extends Game {
 		colleges = new HashMap<String, College>();
 
 		departments.put("Chemistry", new Department("Chemistry", "Attack", this));
-		departments.put("Physics", new Department("Physics", "Defence", this));
-//        departments.put("Computer Science", new Department("Computer Science", "Minigame", this));
+		departments.put("Physics", new Department("Physics", "minigame", this));
+//        departments.put("Computer Science", new Department("Computer Science", "minigame", this));
 
 		colleges.put("Derwent", new College("Derwent"));
 		colleges.put("Vanbrugh", new College("Vanbrugh"));

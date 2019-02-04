@@ -2,6 +2,7 @@ package com.rear_admirals.york_pirates.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -47,16 +48,28 @@ public class DepartmentScreen extends BaseScreen {
         optionsTable.setFillParent(true);
         Label title = new Label(department.getName(), main.getSkin());
 
-        final TextButton upgrade = new TextButton("Upgrade Ship "+ department.getProduct() + " for " + department.getPrice() + " gold", main.getSkin());
+        final TextButton upgrade;
+        if(department.getProduct().equals("minigame")) {
+            upgrade = new TextButton("Enter the tavern to gamble!", main.getSkin());
+        } else {
+            upgrade = new TextButton("Upgrade Ship "+ department.getProduct() + " for " + department.getPrice() + " gold", main.getSkin());
+        }
+
         final Label message = new Label("", main.getSkin());
         this.toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
 
         final TextButton heal = new TextButton("Repair Ship for "+ toHeal/10 +" gold", main.getSkin());
+        final Screen screen = this;
         upgrade.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                department.purchase();
-                upgrade.setText("Upgrade Ship "+ department.getProduct() + " for " + department.getPrice() + " gold");
+                if(department.getProduct().equals("minigame")) {
+                    pirateGame.setScreen(new MiniGameScreen(pirateGame, screen));
+                    upgrade.setText("Enter the tavern to gamble!");
+                } else {
+                    department.purchase();
+                    upgrade.setText("Upgrade Ship " + department.getProduct() + " for " + department.getPrice() + " gold");
+                }
             }
         });
 

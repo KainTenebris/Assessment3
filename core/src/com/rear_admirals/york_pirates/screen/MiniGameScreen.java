@@ -1,6 +1,7 @@
 package com.rear_admirals.york_pirates.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -39,17 +40,20 @@ public class MiniGameScreen extends BaseScreen{
 
     private TextButton higher;
     private TextButton lower;
-    private TextButton quater_bet;
+    private TextButton quarter_bet;
     private TextButton half_bet;
-    private TextButton three_quater_bet;
+    private TextButton three_quarter_bet;
     private TextButton full_bet;
     private TextButton textBox;
 
-    public MiniGameScreen(final PirateGame main){
+    private Screen oldScreen;
+
+    public MiniGameScreen(final PirateGame main, final Screen oldScreen){
         super(main);
         this.player = main.getPlayer();
         this.gold_available = player.getGold();
         this.bet_amount = 0;
+        this.oldScreen = oldScreen;
         //for testing purposes
 //        this.gold_available = 1000;
 
@@ -69,7 +73,7 @@ public class MiniGameScreen extends BaseScreen{
         background_wood.setSize(viewwidth, viewheight);
 
         //array of textures for the card fronts
-        ArrayList<String> cards = new ArrayList();
+        ArrayList<String> cards = new ArrayList<String>();
         cards.add("card_1.png");
         cards.add("card_2.png");
         cards.add("card_3.png");
@@ -120,9 +124,9 @@ public class MiniGameScreen extends BaseScreen{
 
 
         //calculating numbers for possible bets
-        Integer quater = this.gold_available/4;
-        Integer half = this.gold_available/2;
-        Integer three_quater = 3*this.gold_available/4;
+        int quarter = this.gold_available/4;
+        int half = this.gold_available/2;
+        int three_quarter = 3*this.gold_available/4;
 
 
 
@@ -132,9 +136,9 @@ public class MiniGameScreen extends BaseScreen{
         higher = new TextButton("Higher", pirateGame.getSkin());
 
         //creates buttons for choosing bets
-        quater_bet = new TextButton(quater.toString(), pirateGame.getSkin());
-        half_bet = new TextButton(Integer.toString(half), pirateGame.getSkin());
-        three_quater_bet = new TextButton(three_quater.toString(), pirateGame.getSkin());
+        quarter_bet = new TextButton("" + quarter, pirateGame.getSkin());
+        half_bet = new TextButton("" + half, pirateGame.getSkin());
+        three_quarter_bet = new TextButton("" + three_quarter, pirateGame.getSkin());
         full_bet = new TextButton(this.gold_available.toString(), pirateGame.getSkin());
 
         //creates button to leave game
@@ -142,9 +146,9 @@ public class MiniGameScreen extends BaseScreen{
         textBox = new TextButton("", pirateGame.getSkin());
 
         //listeners for the buttons
-        buttonListener(quater_bet, 0.25);
+        buttonListener(quarter_bet, 0.25);
         buttonListener(half_bet, 0.5);
-        buttonListener(three_quater_bet, 0.75);
+        buttonListener(three_quarter_bet, 0.75);
         buttonListener(full_bet, 1);
 
         //listener to quit minigame
@@ -154,7 +158,7 @@ public class MiniGameScreen extends BaseScreen{
                 System.out.println("quitting");
                 player.setGold(gold_available);
                 //dispose of minigame or build new sailing screen
-                pirateGame.setScreen(pirateGame.getSailingScene());
+                pirateGame.setScreen(oldScreen);
             }
         });
 
@@ -186,10 +190,10 @@ public class MiniGameScreen extends BaseScreen{
 
         //create table to choose bets from
         bet_table.row();
-        bet_table.add(quater_bet).uniform().width(viewwidth/5).padRight(button_pad_right);
+        bet_table.add(quarter_bet).uniform().width(viewwidth/5).padRight(button_pad_right);
         bet_table.add(half_bet).uniform().width(viewwidth/5);
         bet_table.row().padTop(button_pad_bottom);
-        bet_table.add(three_quater_bet).uniform().width(viewwidth/5).padRight(button_pad_right);
+        bet_table.add(three_quarter_bet).uniform().width(viewwidth/5).padRight(button_pad_right);
         bet_table.add(full_bet).uniform().width(viewwidth/5);
 
         //create table to choose higher/lower from
@@ -286,14 +290,14 @@ public class MiniGameScreen extends BaseScreen{
         bet_num_label.setText(bet_amount.toString());
         gold_num_label.setText(gold_available.toString());
 
-        Integer quater = this.gold_available/4;
-        Integer half = this.gold_available/2;
-        Integer three_quater = 3*this.gold_available/4;
+        int quarter = this.gold_available/4;
+        int half = this.gold_available/2;
+        int three_quarter = 3*this.gold_available/4;
 
-        quater_bet.setText(quater.toString());
-        half_bet.setText(half.toString());
-        three_quater_bet.setText(three_quater.toString());
-        full_bet.setText(this.gold_available.toString());
+        quarter_bet.setText("" + quarter);
+        half_bet.setText("" + half);
+        three_quarter_bet.setText("" + three_quarter);
+        full_bet.setText("" + this.gold_available);
     }
 
     //for the higher/lower buttons
@@ -304,45 +308,37 @@ public class MiniGameScreen extends BaseScreen{
             public void clicked(InputEvent event, float x, float y) {
                 switch (stage){
                     case 1:     turn(stage+1);
-                                System.out.println(stage);
                                 if (high == (card2_val>card1_val)){
-                                    System.out.println("yup");
+                                    stage+=1;
                                 } else{
                                     player.setGold(gold_available);
-                                    pirateGame.setScreen(new MiniGameScreen(pirateGame));
-                                    dispose();
+                                    //pirateGame.setScreen(new MiniGameScreen(pirateGame, oldScreen));
                                 }
-                                stage+=1;
                                 break;
                     case 2:     turn(stage+1);
-                                System.out.println(stage);
                                 if (high == (card3_val>card2_val)){
-                                    System.out.println("yup");
+                                    stage+=1;
                                 } else{
                                     player.setGold(gold_available);
-                                    pirateGame.setScreen(new MiniGameScreen(pirateGame));
-                                    dispose();
+                                    //pirateGame.setScreen(new MiniGameScreen(pirateGame, oldScreen));
                                 }
                                 stage+=1;
                                 break;
                     case 3:     turn(stage+1);
-                                System.out.println(stage);
-                                stage = 1;
                                 if (high == (card4_val>card3_val)){
-                                    System.out.println("yup");
                                     gold_available += 2*bet_amount;
+                                    player.setGold(gold_available);
                                 } else{
+                                    player.setGold(gold_available);
                                 }
-                                higher_lower_table.setVisible(false);
-                                bet_table.setVisible(true);
-                                bet_amount = 0;
-                                update(bet_amount);
+//                                higher_lower_table.setVisible(false);
+//                                bet_table.setVisible(true);
+//                                bet_amount = 0;
+//                                update(bet_amount);
                                 //doesn't let you play a second game for some reason
                                 //imma just kill teh entire thing an reload the screen
                                 //do this a better way if time
-                                player.setGold(gold_available);
-                                pirateGame.setScreen(new MiniGameScreen(pirateGame));
-                                dispose();
+//                                pirateGame.setScreen(new MiniGameScreen(pirateGame, oldScreen));
                                 break;
                     default:    throw new IllegalArgumentException("not valid stage");
                 }
@@ -357,11 +353,8 @@ public class MiniGameScreen extends BaseScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 double temp = gold_available*percent;
-                System.out.println(percent);
-                System.out.println(temp);
                 bet_amount = (int)temp;
                 gold_available -= bet_amount;
-                System.out.println("clicked button: "+bet_amount);
                 play();
             }
         });
