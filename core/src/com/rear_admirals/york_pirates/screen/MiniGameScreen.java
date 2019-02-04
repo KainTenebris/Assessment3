@@ -250,6 +250,7 @@ public class MiniGameScreen extends BaseScreen{
         Gdx.input.setInputProcessor(uiStage);
     }
 
+    //makes the cards visible
     private void turn(Integer card){
         switch (card){
             case 1:     System.out.println(card1_val+":"+card2_val);
@@ -268,6 +269,7 @@ public class MiniGameScreen extends BaseScreen{
         }
     }
 
+    //starts the game
     private void play(){
         stage = 1;
         System.out.println(card1_val+":"+card2_val+":"+card3_val+":"+card4_val);
@@ -279,6 +281,7 @@ public class MiniGameScreen extends BaseScreen{
         turn(stage);
     }
 
+    //updates values of bet_amount and gold_available on the screen and buttons
     public void update(float delta){
         bet_num_label.setText(bet_amount.toString());
         gold_num_label.setText(gold_available.toString());
@@ -293,6 +296,8 @@ public class MiniGameScreen extends BaseScreen{
         full_bet.setText(this.gold_available.toString());
     }
 
+    //for the higher/lower buttons
+    //carries out the game
     private void buttonListener(TextButton button, final Boolean high){
         button.addListener(new ClickListener() {
             @Override
@@ -345,6 +350,8 @@ public class MiniGameScreen extends BaseScreen{
         });
     }
 
+    //for the bet buttons
+    //updates the values of bet_amount and gold_available in the variables
     private void buttonListener(TextButton button, final double percent){
         button.addListener(new ClickListener(){
             @Override
