@@ -220,8 +220,7 @@ public class SailingScreen extends BaseScreen {
         goldLabel.setText(Integer.toString(pirateGame.getPlayer().getGold()));
         this.playerShip.playerMove(delta);
 
-//        if(isFinalBossReady && Gdx.input.isKeyPressed(Input.Keys.U)) {
-        if(Gdx.input.isKeyPressed(Input.Keys.U)) {
+        if(isFinalBossReady && Gdx.input.isKeyPressed(Input.Keys.U)) {
             goToBossLevel();
             objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: Y", pirateGame.getSkin(), "default_black"));
             uiStage.addActor(new Label("You have conquered York! Final score: " + pirateGame.getPlayer().getPoints() + "\nPress any key to return to the main menu.",
