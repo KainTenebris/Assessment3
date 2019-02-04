@@ -80,9 +80,9 @@ public class MiniGameScreen extends BaseScreen{
         cards.add("card_8.png");
         cards.add("card_9.png");
         cards.add("card_10.png");
-//        cards.add("card_11.png");
-//        cards.add("card_12.png");
-//        cards.add("card_13.png");
+        cards.add("card_11.png");
+        cards.add("card_12.png");
+        cards.add("card_13.png");
 
 
 
