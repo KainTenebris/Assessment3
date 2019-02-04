@@ -59,12 +59,14 @@ public class DepartmentScreen extends BaseScreen {
         this.toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
 
         final TextButton heal = new TextButton("Repair Ship for "+ toHeal/10 +" gold", main.getSkin());
-        final Screen screen = this;
+
+        final TextButton leave = new TextButton("Leave", main.getSkin());
+
         upgrade.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 if(department.getProduct().equals("minigame")) {
-                    pirateGame.setScreen(new MiniGameScreen(pirateGame, screen));
+                    startMinigame();
                     upgrade.setText("Enter the tavern to gamble!");
                 } else {
                     department.purchase();
@@ -92,11 +94,19 @@ public class DepartmentScreen extends BaseScreen {
             }
         });
 
+        leave.addListener(new ClickListener() {
+           public void clicked(InputEvent event, float x, float y) {
+               pirateGame.setScreen(pirateGame.getSailingScene());
+           }
+        });
+
         optionsTable.add(title);
         optionsTable.row();
         optionsTable.add(upgrade);
         optionsTable.row();
         optionsTable.add(heal);
+        optionsTable.row();
+        optionsTable.add(leave);
 
         mainStage.addActor(optionsTable);
         Gdx.input.setInputProcessor(mainStage);
@@ -104,14 +114,19 @@ public class DepartmentScreen extends BaseScreen {
 
     @Override
     public void update(float delta){
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-            pirateGame.setScreen(pirateGame.getSailingScene());
-        }
-
         goldLabel.setText(Integer.toString(pirateGame.getPlayer().getGold()));
         pointsLabel.setText(Integer.toString(pirateGame.getPlayer().getPoints()));
         toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
 
+    }
+
+    public void startMinigame() {
+        pirateGame.beforeMinigameScreen = this;
+        pirateGame.setScreen(new MiniGameScreen(pirateGame));
+    }
+
+    public void resume() {
+        Gdx.input.setInputProcessor(mainStage);
     }
 }
 

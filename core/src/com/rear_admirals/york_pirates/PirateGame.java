@@ -20,6 +20,7 @@ public class PirateGame extends Game {
     private Skin skin;
     private Player player;
 	private Screen sailingScene;
+	public Screen beforeMinigameScreen;
 	public static HashMap<String, Department> departments;
 	public static HashMap<String, College> colleges;
 

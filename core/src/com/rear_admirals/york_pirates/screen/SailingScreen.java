@@ -340,10 +340,6 @@ public class SailingScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && pirateGame.getScreen() == pirateGame.getSailingScene()) {
-            pirateGame.reset();
-            pirateGame.setScreen(new MainMenu(pirateGame));
-        }
         uiStage.act(delta);
 
         mainStage.act(delta);

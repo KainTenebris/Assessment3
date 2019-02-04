@@ -46,14 +46,11 @@ public class MiniGameScreen extends BaseScreen{
     private TextButton full_bet;
     private TextButton textBox;
 
-    private Screen oldScreen;
-
-    public MiniGameScreen(final PirateGame main, final Screen oldScreen){
+    public MiniGameScreen(final PirateGame main){
         super(main);
         this.player = main.getPlayer();
         this.gold_available = player.getGold();
         this.bet_amount = 0;
-        this.oldScreen = oldScreen;
         //for testing purposes
 //        this.gold_available = 1000;
 
@@ -155,10 +152,9 @@ public class MiniGameScreen extends BaseScreen{
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("quitting");
                 player.setGold(gold_available);
-                //dispose of minigame or build new sailing screen
-                pirateGame.setScreen(oldScreen);
+                pirateGame.beforeMinigameScreen.resume();
+                pirateGame.setScreen(pirateGame.beforeMinigameScreen);
             }
         });
 
@@ -257,17 +253,13 @@ public class MiniGameScreen extends BaseScreen{
     //makes the cards visible
     private void turn(Integer card){
         switch (card){
-            case 1:     System.out.println(card1_val+":"+card2_val);
-                        card1.setVisible(true);
+            case 1:     card1.setVisible(true);
                         break;
-            case 2:     System.out.println(card2_val+":"+card3_val);
-                        card2.setVisible(true);
+            case 2:     card2.setVisible(true);
                         break;
-            case 3:     System.out.println(card3_val+":"+card4_val);
-                        card3.setVisible(true);
+            case 3:     card3.setVisible(true);
                         break;
-            case 4:     System.out.println(card4_val);
-                        card4.setVisible(true);
+            case 4:     card4.setVisible(true);
                         break;
             default:    throw new IllegalArgumentException("not valid card");
         }
@@ -276,7 +268,6 @@ public class MiniGameScreen extends BaseScreen{
     //starts the game
     private void play(){
         stage = 1;
-        System.out.println(card1_val+":"+card2_val+":"+card3_val+":"+card4_val);
         update(bet_amount);
         bet_table.setVisible(false); //couldn't press buttons. dunno if that was cos you couldn't or I was clicking in the wrong place
         higher_lower_table.setVisible(true);
@@ -306,13 +297,14 @@ public class MiniGameScreen extends BaseScreen{
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                System.out.println(stage);
                 switch (stage){
                     case 1:     turn(stage+1);
                                 if (high == (card2_val>card1_val)){
                                     stage+=1;
                                 } else{
                                     player.setGold(gold_available);
-                                    //pirateGame.setScreen(new MiniGameScreen(pirateGame, oldScreen));
+                                    pirateGame.setScreen(new MiniGameScreen(pirateGame));
                                 }
                                 break;
                     case 2:     turn(stage+1);
@@ -320,9 +312,8 @@ public class MiniGameScreen extends BaseScreen{
                                     stage+=1;
                                 } else{
                                     player.setGold(gold_available);
-                                    //pirateGame.setScreen(new MiniGameScreen(pirateGame, oldScreen));
+                                    pirateGame.setScreen(new MiniGameScreen(pirateGame));
                                 }
-                                stage+=1;
                                 break;
                     case 3:     turn(stage+1);
                                 if (high == (card4_val>card3_val)){
@@ -331,6 +322,7 @@ public class MiniGameScreen extends BaseScreen{
                                 } else{
                                     player.setGold(gold_available);
                                 }
+                                pirateGame.setScreen(new MiniGameScreen(pirateGame));
 //                                higher_lower_table.setVisible(false);
 //                                bet_table.setVisible(true);
 //                                bet_amount = 0;

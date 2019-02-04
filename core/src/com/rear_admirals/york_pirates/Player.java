@@ -16,7 +16,7 @@ public class Player {
 
     public Player() {
 	    this.playerShip = new Ship(Player, "Your Ship", PirateGame.colleges.get("Derwent"));
-        this.gold = 0;
+        this.gold = 50;
         this.points = 0;
 
         attacks.add(Ram.attackRam);
