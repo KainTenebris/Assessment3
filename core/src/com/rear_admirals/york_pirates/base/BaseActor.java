@@ -65,9 +65,6 @@ public class BaseActor extends Group {
 		boundingPolygon.setOrigin(getOriginX(), getOriginY());
 	}
 
-	//just calls the super?
-	public void act(float dt) { super.act(dt); }
-
 	//draws the batch
 	public void draw(Batch batch, float parentAlpha) {
 		Color c = getColor();
