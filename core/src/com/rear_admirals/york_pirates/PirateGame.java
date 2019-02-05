@@ -85,22 +85,4 @@ public class PirateGame extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
 	}
-
-	//changes size of screen
-	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
-	}
-
-	//pauses game
-	@Override
-	public void pause() {
-		super.pause();
-	}
-
-	//resumes game
-	@Override
-	public void resume() {
-		super.resume();
-	}
 }
