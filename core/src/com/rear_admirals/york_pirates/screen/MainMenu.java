@@ -105,18 +105,6 @@ public class MainMenu extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    //methods do nothing
-    @Override
-    public void update(float delta) { }
-    @Override
-    public void show() {    }
-    @Override
-    public void hide() {    }
-    @Override
-    public void pause() {   }
-    @Override
-    public void resume() {  }
-
     //creates the screen
     public void render(float delta){
         Gdx.gl.glClearColor(0, 0, 0, 1);
