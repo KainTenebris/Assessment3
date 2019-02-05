@@ -142,7 +142,7 @@ public class DepartmentScreen extends BaseScreen {
         pirateGame.setScreen(new MiniGameScreen(pirateGame));
     }
 
-    //
+    //used when returning to department from minigame
     public void resume() {
         Gdx.input.setInputProcessor(mainStage);
     }
