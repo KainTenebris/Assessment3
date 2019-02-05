@@ -30,8 +30,6 @@ public class MainMenu extends BaseScreen {
         this.screen_width = stage.getWidth();
         this.screen_height = stage.getHeight();
 
-        Gdx.graphics.setTitle("York Pirates!");
-
         
         
         //Labels
