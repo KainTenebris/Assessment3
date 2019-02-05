@@ -22,12 +22,9 @@ public class Department {
     public String getName() { return name; }
     public String getProduct() { return product; }
     public int getPrice() {
-        if (product == "Defence") {
+        if ((product.equals("Defence")) || (product.equals("Attack"))) {
             return base_price;
-        } else if (product == "Attack"){
-            return base_price;
-        }
-        else {return 0;}
+        } else {return 0;}
     }
 
     //Upgrades stat of the ship(product of dep) by 1
