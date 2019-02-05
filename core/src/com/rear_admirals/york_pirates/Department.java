@@ -29,17 +29,15 @@ public class Department {
 
     //Upgrades stat of the ship(product of dep) by 1
     public boolean purchase(){
-        if ( pirateGame.getPlayer().payGold(getPrice()) ) {
-            if (product == "Defence") {
-                pirateGame.getPlayer().getPlayerShip().setDefence(pirateGame.getPlayer().getPlayerShip().getDefence() + 1);
-                return true;
-            }
-            else {
-                pirateGame.getPlayer().getPlayerShip().setAttack(pirateGame.getPlayer().getPlayerShip().getAttack() + 1);
-                return true;
-            }
-        } else {
-            return false;
+        if (!pirateGame.getPlayer().payGold(getPrice())){ return false; }
+        switch (product) {
+            case "Attack":  pirateGame.getPlayer().getPlayerShip().setAttack(pirateGame.getPlayer().getPlayerShip().getAttack() + 1);
+                            return true;
+                            break;
+            case "Defence": pirateGame.getPlayer().getPlayerShip().setDefence(pirateGame.getPlayer().getPlayerShip().getDefence() + 1);
+                            return true;
+                            break
+            default:        return false;
         }
     }
 }
