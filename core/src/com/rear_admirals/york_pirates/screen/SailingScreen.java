@@ -235,6 +235,7 @@ public class SailingScreen extends BaseScreen {
         goldLabel.setText(Integer.toString(pirateGame.getPlayer().getGold()));
         this.playerShip.playerMove(delta);
 
+        //allows you to fight final boos if all objectives are complete
         if(isFinalBossReady && Gdx.input.isKeyPressed(Input.Keys.U)) {
             goToBossLevel();
             objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: Y", pirateGame.getSkin(), "default_black"));
@@ -327,29 +328,29 @@ public class SailingScreen extends BaseScreen {
 
         // camera adjustment
         Camera mainCamera = mainStage.getCamera();
-
+        
         // center camera on player
         mainCamera.position.x = playerShip.getX() + playerShip.getOriginX();
         mainCamera.position.y = playerShip.getY() + playerShip.getOriginY();
-
+        
         // bound camera to layout
         mainCamera.position.x = MathUtils.clamp(mainCamera.position.x, viewwidth / 2, mapWidth - viewwidth / 2);
         mainCamera.position.y = MathUtils.clamp(mainCamera.position.y, viewheight / 2, mapHeight - viewheight / 2);
         mainCamera.update();
-
+        
         // adjust tilemap camera to stay in sync with main camera
         tiledCamera.position.x = mainCamera.position.x;
         tiledCamera.position.y = mainCamera.position.y;
         tiledCamera.update();
         tiledMapRenderer.setView(tiledCamera);
-
+        
+        //adds points according to timer
         timer += delta;
         if (timer > 1) {
             pirateGame.getPlayer().addPoints(1 + seconds/60);//Every minute, score per second increases by 1
             seconds++;
             timer -= 1;
         }
-
         pointsLabel.setText(Integer.toString(pirateGame.getPlayer().getPoints()));
     }
 
