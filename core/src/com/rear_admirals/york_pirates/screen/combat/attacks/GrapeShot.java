@@ -4,6 +4,7 @@ import com.rear_admirals.york_pirates.Ship;
 
 public class GrapeShot extends Attack {
 
+    //Constructor
     public GrapeShot(String name, String desc, int dmgMultiplier, double accMultiplier, boolean skipMove, int accPercent) {
         super(name, desc, dmgMultiplier, accMultiplier, skipMove, accPercent);
     }
