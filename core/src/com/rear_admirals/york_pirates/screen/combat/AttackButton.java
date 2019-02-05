@@ -9,6 +9,7 @@ public class AttackButton extends TextButton {
     private String desc;
     private Attack attack;
 
+    //Constructor
     public AttackButton(Attack attack, Skin skin){
         super(attack.getName(), skin);
         this.attack = attack;
@@ -16,6 +17,7 @@ public class AttackButton extends TextButton {
         this.desc = attack.getDesc();
     }
 
+    //Constructor
     public AttackButton(Attack attack, Skin skin, String type){
         super(attack.getName(), skin, type);
         this.attack = attack;
@@ -23,11 +25,8 @@ public class AttackButton extends TextButton {
         this.desc = attack.getDesc();
     }
 
-    public String getName() {
-        return this.name;
-    }
-    public String getDesc() {
-        return this.desc;
-    }
+    //Getters
+    public String getName() { return this.name; }
+    public String getDesc() { return this.desc; }
     public Attack getAttack() { return this.attack; }
 }
