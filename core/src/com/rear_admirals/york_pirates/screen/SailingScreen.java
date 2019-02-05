@@ -62,31 +62,42 @@ public class SailingScreen extends BaseScreen {
 
     private boolean isFinalBossReady;
 
+    //Constructor
     public SailingScreen(PirateGame main){
         super(main);
 
-        isFinalBossReady = false;
+        this.isFinalBossReady = false;
+        this.playerShip = main.getPlayer().getPlayerShip();
+        this.mainStage.addActor(playerShip);
+        
+        
+        
+        //Lists
+        obstacleList = new ArrayList<BaseActor>();
+        removeList = new ArrayList<BaseActor>();
+        regionList = new ArrayList<BaseActor>();
 
-        playerShip = main.getPlayer().getPlayerShip();
-
-        mainStage.addActor(playerShip);
-
-        Table uiTable = new Table();
-
+        
+        
+        //Labels
+        //create labels
+        this.pointsLabel = new Label(Integer.toString(main.getPlayer().getPoints()), main.getSkin(), "default_black");
+        this.goldLabel = new Label(Integer.toString(main.getPlayer().getGold()), main.getSkin(), "default_black");
+        this.mapMessage = new Label("", main.getSkin(), "default_black");
+        this.hintMessage = new Label("", main.getSkin(),"default_black");
+        this.bossMessage = new Label("", main.getSkin(), "default_black");
         Label pointsTextLabel = new Label("Points: ", main.getSkin(),"default_black");
-        pointsLabel = new Label(Integer.toString(main.getPlayer().getPoints()), main.getSkin(), "default_black");
-        pointsLabel.setAlignment(Align.left);
-
         Label goldTextLabel = new Label("Gold:", main.getSkin(),"default_black");
-        goldLabel = new Label(Integer.toString(main.getPlayer().getGold()), main.getSkin(), "default_black");
+        
+        //align labels
+        pointsLabel.setAlignment(Align.left);
         goldLabel.setAlignment(Align.left);
-
+        
+        //map for labels
         objectiveLabels = new LinkedHashMap<String, Label>();
-
-        Table objectivesTable = new Table();
-
+        
+        //add labels to map
         objectiveLabels.put("objectives title", new Label("Conquer all of York!", main.getSkin(), "default_black"));
-
         for(College college : colleges.values()) {
             if(playerShip.getCollege() == college) {
                 objectiveLabels.put(college.getName(), new Label(college.getName() + " Allied: " + "Y", main.getSkin(), "default_black"));
@@ -94,47 +105,48 @@ public class SailingScreen extends BaseScreen {
                 objectiveLabels.put(college.getName(), new Label(college.getName() + "Allied: " + "N", main.getSkin(), "default_black"));
             }
         }
-
         objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: N", main.getSkin(), "default_black"));
-
+        
+        
+        
+        //Tables
+        //create tables
+        Table uiTable = new Table();
+        Table objectivesTable = new Table();
+        Table messageTable = new Table();
+        
+        //align tables
+        uiTable.align(Align.topRight);
+        objectivesTable.align(Align.topLeft);
+        uiTable.setFillParent(true);
+        objectivesTable.setFillParent(true);
+        messageTable.setFillParent(true);
+        messageTable.top();
+        
+        //add to tables
         uiTable.add(pointsTextLabel);
         uiTable.add(pointsLabel).width(pointsTextLabel.getWidth());
         uiTable.row();
         uiTable.add(goldTextLabel).fill();
         uiTable.add(goldLabel).fill();
-
         for(Label label : objectiveLabels.values()) {
             objectivesTable.row();
             objectivesTable.add(label).fill();
         }
-
-        uiTable.align(Align.topRight);
-        uiTable.setFillParent(true);
-        objectivesTable.align(Align.topLeft);
-        objectivesTable.setFillParent(true);
-
-        uiStage.addActor(uiTable);
-        uiStage.addActor(objectivesTable);
-
-        mapMessage = new Label("", main.getSkin(), "default_black");
-        hintMessage = new Label("", main.getSkin(),"default_black");
-        bossMessage = new Label("", main.getSkin(), "default_black");
-
-        Table messageTable = new Table();
         messageTable.add(mapMessage);
         messageTable.row();
         messageTable.add(hintMessage);
         messageTable.row();
         messageTable.add(bossMessage);
-
-        messageTable.setFillParent(true);
-        messageTable.top();
-
+        
+        
+        
+        //Stages
+        uiStage.addActor(uiTable);
+        uiStage.addActor(objectivesTable);
         uiStage.addActor(messageTable);
-
-        obstacleList = new ArrayList<BaseActor>();
-        removeList = new ArrayList<BaseActor>();
-        regionList = new ArrayList<BaseActor>();
+        
+        
 
         // set up tile map, renderer and camera
         tiledMap = new TmxMapLoader().load("game_map.tmx");
@@ -338,14 +350,13 @@ public class SailingScreen extends BaseScreen {
         pointsLabel.setText(Integer.toString(pirateGame.getPlayer().getPoints()));
     }
 
+    //draws everything
     @Override
     public void render(float delta) {
         uiStage.act(delta);
-
         mainStage.act(delta);
         update(delta);
 
-        // render
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tiledMapRenderer.render(backgroundLayers);
@@ -363,6 +374,7 @@ public class SailingScreen extends BaseScreen {
         }
     }
 
+    //disposes of the screen
     @Override
     public void dispose () {
         mainStage.dispose();
@@ -370,6 +382,7 @@ public class SailingScreen extends BaseScreen {
         playerShip.getSailingTexture().dispose();
     }
 
+    //capitalises letters, needed because maps stores strings completely in lowercase
     public String capitalizeFirstLetter(String original) {
         if (original == null || original.length() == 0) {
             return original;
@@ -377,6 +390,7 @@ public class SailingScreen extends BaseScreen {
         return original.substring(0, 1).toUpperCase() + original.substring(1);
     }
 
+    //changes screen to bossScreen
     public void goToBossLevel() {
         pirateGame.setScreen(new BossScreen(pirateGame));
     }
