@@ -10,13 +10,27 @@ public class Department {
     private int base_price;
     private PirateGame pirateGame;
 
+    //Constructor
     public Department(String name, String product, PirateGame pirateGame) {
         this.name = name;
         this.product = product;
         this.base_price = 10;
         this.pirateGame = pirateGame;
     }
+    
+    //Getters
+    public String getName() { return name; }
+    public String getProduct() { return product; }
+    public int getPrice() {
+        if (product == "Defence") {
+            return base_price;
+        } else if (product == "Attack"){
+            return base_price;
+        }
+        else {return 0;}
+    }
 
+    //Upgrades stat of the ship(product of dep) by 1
     public boolean purchase(){
         if ( pirateGame.getPlayer().payGold(getPrice()) ) {
             if (product == "Defence") {
@@ -30,20 +44,5 @@ public class Department {
         } else {
             return false;
         }
-    }
-
-    public int getPrice() {
-        if (product == "Defence") {
-            return base_price;
-        } else if (product == "Attack"){
-            return base_price;
-        }
-        else {return 0;}
-    }
-
-    public String getName() { return name; }
-
-    public String getProduct() {
-        return product;
     }
 }
