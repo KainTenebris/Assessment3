@@ -36,16 +36,15 @@ public class Attack {
 		this.skipMoveStatus = skipMove;
 		this.accPercent = accPercent;
 	}
-
-	// Old function used to check if an attack hits the enemy.
-//	@Deprecated
-//	protected boolean doesHit( int accuracy, int mult, int bound) {
-//		if ( accuracy * mult > Math.random() * bound) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
+	
+	//Getters
+	public String getName() { return this.name; }
+	public String getDesc() { return this.desc; }
+	public boolean isSkipMove() { return this.skipMove; }
+	public boolean isSkipMoveStatus() { return this.skipMoveStatus; }
+	
+	//Setters
+	public void setSkipMoveStatus(boolean skipMoveStatus) { this.skipMoveStatus = skipMoveStatus; }
 
 	// New function used to check if an attack hits the enemy.
 	protected boolean doesHit( int shipAcc, int accPercent) {
@@ -66,18 +65,6 @@ public class Attack {
 			return this.damage;
 		}
 		return 0;
-	}
-
-	public String getName() { return this.name;	}
-	public String getDesc() { return this.desc; }
-	public boolean isSkipMove() {
-		return this.skipMove;
-	}
-	public boolean isSkipMoveStatus() {
-		return this.skipMoveStatus;
-	}
-	public void setSkipMoveStatus(boolean skipMoveStatus) {
-		this.skipMoveStatus = skipMoveStatus;
 	}
 
 	// attacks to be used in the game are defined here.
