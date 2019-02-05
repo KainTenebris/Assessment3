@@ -41,7 +41,7 @@ public class PirateGame extends Game {
 		setScreen(new MainMenu(this));
 	}
 
-	//this kinda does all the contructor stuff??
+	//Basically a constructor. Called when starting the game and when returning to the main menu.
 	public void reset() {
 		this.player = new Player();
 		this.sailingScene = new SailingScreen(this);
