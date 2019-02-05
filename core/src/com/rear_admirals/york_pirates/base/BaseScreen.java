@@ -50,15 +50,5 @@ public abstract class BaseScreen implements Screen {
         this.uiStage.getViewport().update(width, height);
         this.mainStage.getViewport().update(width, height);
     }
-
-    //empty methods
-    @Override
-    public void show(){ }
-    @Override
-    public void pause() { }
-    @Override
-    public void hide(){ }
-    @Override
-    public void resume() { }
 }
 
