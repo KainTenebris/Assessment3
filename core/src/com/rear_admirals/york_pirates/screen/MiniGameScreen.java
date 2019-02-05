@@ -46,6 +46,7 @@ public class MiniGameScreen extends BaseScreen{
     private TextButton full_bet;
     private TextButton textBox;
 
+    //Constructor
     public MiniGameScreen(final PirateGame main){
         super(main);
         this.player = main.getPlayer();
