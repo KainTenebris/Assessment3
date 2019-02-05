@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Flee extends Attack {
 
+    //Constructor
     protected Flee() {
         this.name = "FLEE";
         this.desc = "Attempt to escape enemy.";
