@@ -11,32 +11,36 @@ import com.rear_admirals.york_pirates.College;
 import com.rear_admirals.york_pirates.Department;
 
 public class BaseActor extends Group {
-
 	private TextureRegion region;
 	private Polygon boundingPolygon;
 	private College college;
-    private Department department;
+   	private Department department;
 
+	//Constructor
 	public BaseActor() {
 		super();
-		region = new TextureRegion();
-		boundingPolygon = null;
-		college = null;
-		department = null;
+		this.region = new TextureRegion();
+		this.boundingPolygon = null;
+		this.college = null;
+		this.department = null;
 	}
-
-	public void act(float dt) {
-		super.act(dt);
+	
+	//Getters
+	public Department getDepartment() { return department; }
+	public College getCollege() { return college; }
+	public Polygon getBoundingPolygon() {
+		boundingPolygon.setPosition(getX(), getY());
+		boundingPolygon.setRotation(getRotation());
+		return  boundingPolygon;
 	}
-
-	public void draw(Batch batch, float parentAlpha) {
-		Color c = getColor();
-		batch.setColor(c.r, c.g, c.b, c.a);
-		if (isVisible()) batch.draw(region, getX(), getY(), getOriginX(), getOriginY(),
-				getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-		super.draw(batch, parentAlpha);
+	
+	//Setters
+	public void setDepartment(Department department) { this.department = department; }
+	public void setCollege(College college) { this.college = college; }
+	public void setOriginCentre() {
+		if (getWidth() == 0) System.err.println("error: actor size not set");
+		setOrigin(getWidth()/2,getHeight()/2);
 	}
-
 	public void setRectangleBoundary() {
 		float w = getWidth();
 		float h = getHeight();
@@ -44,7 +48,6 @@ public class BaseActor extends Group {
 		boundingPolygon = new Polygon(vertices);
 		boundingPolygon.setOrigin(getOriginX(), getOriginY());
 	}
-
 	public void setEllipseBoundary() {
 		// number of vertices;
 		int n = 8;
@@ -62,10 +65,16 @@ public class BaseActor extends Group {
 		boundingPolygon.setOrigin(getOriginX(), getOriginY());
 	}
 
-	public Polygon getBoundingPolygon() {
-		boundingPolygon.setPosition(getX(), getY());
-		boundingPolygon.setRotation(getRotation());
-		return  boundingPolygon;
+	//just calls the super?
+	public void act(float dt) { super.act(dt); }
+
+	//draws the batch
+	public void draw(Batch batch, float parentAlpha) {
+		Color c = getColor();
+		batch.setColor(c.r, c.g, c.b, c.a);
+		if (isVisible()) batch.draw(region, getX(), getY(), getOriginX(), getOriginY(),
+				getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+		super.draw(batch, parentAlpha);
 	}
 
 	/**
@@ -79,9 +88,7 @@ public class BaseActor extends Group {
 	public boolean overlaps(BaseActor other, boolean resolve) {
 		Polygon poly1 = this.getBoundingPolygon();
 		Polygon poly2 = other.getBoundingPolygon();
-
 		if (!poly1.getBoundingRectangle().overlaps(poly2.getBoundingRectangle())) return false;
-
 		Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
 		boolean polyOverlap = Intersector.overlapConvexPolygons(poly1, poly2, mtv);
 		if (polyOverlap && resolve) {
@@ -90,27 +97,6 @@ public class BaseActor extends Group {
 
 		float significant = 0.5f;
 		return (polyOverlap && (mtv.depth > significant));
-	}
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public College getCollege() {
-        return college;
-    }
-
-    public void setCollege(College college) {
-        this.college = college;
-    }
-
-	public void setOriginCentre() {
-		if (getWidth() == 0) System.err.println("error: actor size not set");
-		setOrigin(getWidth()/2,getHeight()/2);
 	}
 }
 
