@@ -11,8 +11,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.rear_admirals.york_pirates.College;
 import com.rear_admirals.york_pirates.screen.combat.CombatScreen;
@@ -97,7 +101,7 @@ public class SailingScreen extends BaseScreen {
         //add labels to hashmap
         objectiveLabels.put("objectives title", new Label("Conquer all of York!", main.getSkin(), "default_black"));
         for(College college : colleges.values()) {
-            if(playerShip.getCollege() == college) {
+            if(playerShip.getCollege() == college || playerShip.getCollege().getAlly().contains(college)) {
                 objectiveLabels.put(college.getName(), new Label(college.getName() + " Allied: " + "Y", main.getSkin(), "default_black"));
             } else {
                 objectiveLabels.put(college.getName(), new Label(college.getName() + "Allied: " + "N", main.getSkin(), "default_black"));
@@ -182,7 +186,19 @@ public class SailingScreen extends BaseScreen {
         
         tiledCamera.setToOrtho(false, viewwidth, viewheight);
         tiledCamera.update();
-        
+
+        TextButton quit = new TextButton("Quit", pirateGame.getSkin());
+        quit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pirateGame.reset();
+                pirateGame.setScreen(new MainMenu(pirateGame));
+                dispose();
+            }
+        });
+
+        quit.align(Align.bottomLeft);
+
         //Tables
         //create tables
         Table uiTable = new Table();
@@ -214,11 +230,10 @@ public class SailingScreen extends BaseScreen {
         messageTable.add(bossMessage);
         
         //Stages
-        InputMultiplexer im = new InputMultiplexer(uiStage, mainStage);
         uiStage.addActor(uiTable);
         uiStage.addActor(objectivesTable);
         uiStage.addActor(messageTable);
-        Gdx.input.setInputProcessor(im);
+        uiStage.addActor(quit);
     }
 
     @Override
@@ -365,6 +380,12 @@ public class SailingScreen extends BaseScreen {
             playerShip.setAccelerationXY(0,0);
             playerShip.setDeceleration(100);
         }
+    }
+
+    @Override
+    public void show() {
+        InputMultiplexer im = new InputMultiplexer(uiStage, mainStage);
+        Gdx.input.setInputProcessor(im);
     }
 
     //disposes of the screen

@@ -9,10 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.rear_admirals.york_pirates.College;
 import com.rear_admirals.york_pirates.PirateGame;
 import com.rear_admirals.york_pirates.base.BaseScreen;
 import com.rear_admirals.york_pirates.screen.combat.CombatScreen;
 import com.rear_admirals.york_pirates.Ship;
+
+import java.util.Iterator;
+import java.util.Random;
 
 import static com.rear_admirals.york_pirates.PirateGame.*;
 import static com.rear_admirals.york_pirates.ShipType.*;
@@ -26,20 +30,17 @@ public class MainMenu extends BaseScreen {
     //Constructor
     public MainMenu(final PirateGame pirateGame){
         super(pirateGame);
-        
-        this.screen_width = stage.getWidth();
-        this.screen_height = stage.getHeight();
 
         //Labels
         //create labels
-        Label title = new Label("Rear Admirals", pirateGame.getSkin(), "title");
+        Label title = new Label("York Pirates!", pirateGame.getSkin(), "title");
         
         //set alignment of labels
         title.setAlignment(Align.center);
 
         //TextButtons
         //create TextButtons
-        TextButton sailing_mode = new TextButton("Start Game", pirateGame.getSkin()); // Starts sailing mode.
+        TextButton play = new TextButton("Start Game", pirateGame.getSkin()); // Starts sailing mode.
         TextButton quickplay = new TextButton("Quick Play", pirateGame.getSkin());
         TextButton quit = new TextButton("Quit", pirateGame.getSkin());
         
@@ -49,12 +50,22 @@ public class MainMenu extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 Ship newPlayerShip = new Ship(Warship, pirateGame.getPlayer().getPlayerShip().getCollege());
                 pirateGame.getPlayer().setPlayerShip(newPlayerShip);
-                ((SailingScreen)pirateGame.getSailingScene()).playerShip = newPlayerShip;
+                Iterator iter = colleges.values().iterator();
+                int size = colleges.size();
+                for(int i = 0; i < size/2; i++) {
+                    College college = (College) iter.next();
+                    College playersCollege = pirateGame.getPlayer().getPlayerShip().getCollege();
+                    if(college != playersCollege) {
+                        college.setBossDead(true);
+                        playersCollege.addAlly(college);
+                    }
+                }
+                pirateGame.setSailingScene(new SailingScreen(pirateGame));
                 pirateGame.setScreen(pirateGame.getSailingScene());
                 dispose();
             }
         });
-        sailing_mode.addListener(new ClickListener(){
+        play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 pirateGame.setScreen(pirateGame.getSailingScene());
@@ -75,7 +86,7 @@ public class MainMenu extends BaseScreen {
         //adds to tables
         table.add(title).padBottom(viewwidth/20).width(viewwidth/2);
         table.row(); // Ends the current row
-        table.add(sailing_mode).uniform().padBottom(viewheight/40).size(viewwidth/2,viewheight/10);
+        table.add(play).uniform().padBottom(viewheight/40).size(viewwidth/2,viewheight/10);
         table.row();
         table.add(quickplay).uniform().padBottom(viewheight/40).fill();
         table.row();
@@ -88,6 +99,9 @@ public class MainMenu extends BaseScreen {
         tableContainer.align(Align.center);
 
         this.stage = new Stage(new FitViewport(1920,1080));
+
+        this.screen_width = stage.getWidth();
+        this.screen_height = stage.getHeight();
 
         tableContainer.setActor(table);
         stage.addActor(tableContainer);

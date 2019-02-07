@@ -33,6 +33,7 @@ public class PirateGame extends Game {
 	
 	//Setters
 	public void setSkin(Skin skin) { this.skin = skin; }
+	public void setSailingScene(Screen screen) { this.sailingScene = screen; }
 
 	//calls the reset, then sets the screen to main menu
 	public void create(){
@@ -45,9 +46,6 @@ public class PirateGame extends Game {
 		this.skin = new Skin(Gdx.files.internal("flat-earth-ui.json"));
 		this.font = new BitmapFont();
 		this.batch = new SpriteBatch();
-		
-		//Gives window a title
-		Gdx.graphics.setTitle("York Pirates!");
 		
 		//creates Maps to store Departments and Colleges
 		departments = new HashMap<String, Department>();
