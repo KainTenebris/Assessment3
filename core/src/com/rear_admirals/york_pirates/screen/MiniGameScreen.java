@@ -52,8 +52,6 @@ public class MiniGameScreen extends BaseScreen{
         this.player = main.getPlayer();
         this.gold_available = player.getGold();
         this.bet_amount = 0;
-        //for testing purposes
-//        this.gold_available = 1000;
 
         //numbers for use
         float button_pad_bottom = viewheight / 24f;
@@ -86,8 +84,6 @@ public class MiniGameScreen extends BaseScreen{
         cards.add("card_12.png");
         cards.add("card_13.png");
 
-
-
         //pick 4 random different card textures and turn them into images
         //picks card values
         Random randint = new Random();
@@ -119,14 +115,10 @@ public class MiniGameScreen extends BaseScreen{
         card3.setSize(360,504);
         card4.setSize(360,504);
 
-
-
         //calculating numbers for possible bets
         int quarter = this.gold_available/4;
         int half = this.gold_available/2;
         int three_quarter = 3*this.gold_available/4;
-
-
 
         //buttons
         //creates buttons for guessing result
@@ -156,10 +148,9 @@ public class MiniGameScreen extends BaseScreen{
                 player.setGold(gold_available);
                 pirateGame.beforeMinigameScreen.resume();
                 pirateGame.setScreen(pirateGame.beforeMinigameScreen);
+                dispose();
             }
         });
-
-
 
         //Labels
         //create Labels for gold and bet
@@ -236,8 +227,6 @@ public class MiniGameScreen extends BaseScreen{
         screen_bottom.add(gold_table).width(viewwidth/2);
         screen_bottom.add(bet_table);
         screen_bottom.align(Align.bottomLeft);
-
-
 
         //makes everything visible
         mainStage.addActor(background);
@@ -324,14 +313,6 @@ public class MiniGameScreen extends BaseScreen{
                                     player.setGold(gold_available);
                                 }
                                 pirateGame.setScreen(new MiniGameScreen(pirateGame));
-//                                higher_lower_table.setVisible(false);
-//                                bet_table.setVisible(true);
-//                                bet_amount = 0;
-//                                update(bet_amount);
-                                //doesn't let you play a second game for some reason
-                                //imma just kill teh entire thing an reload the screen
-                                //do this a better way if time
-//                                pirateGame.setScreen(new MiniGameScreen(pirateGame, oldScreen));
                                 break;
                     default:    throw new IllegalArgumentException("not valid stage");
                 }

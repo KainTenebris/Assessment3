@@ -30,17 +30,13 @@ public class MainMenu extends BaseScreen {
         this.screen_width = stage.getWidth();
         this.screen_height = stage.getHeight();
 
-        
-        
         //Labels
         //create labels
         Label title = new Label("Rear Admirals", pirateGame.getSkin(), "title");
         
         //set alignment of labels
         title.setAlignment(Align.center);
-        
-        
-        
+
         //TextButtons
         //create TextButtons
         TextButton sailing_mode = new TextButton("Start Game", pirateGame.getSkin()); // Starts sailing mode.
@@ -71,16 +67,10 @@ public class MainMenu extends BaseScreen {
                Gdx.app.exit();
             }
         });
-        
-        
-        
+
         //Tables
         //create tables
         Table table = new Table();
-        
-        tableContainer.setFillParent(true);
-        tableContainer.setPosition(0,0);
-        tableContainer.align(Align.center);
         
         //adds to tables
         table.add(title).padBottom(viewwidth/20).width(viewwidth/2);
@@ -91,10 +81,12 @@ public class MainMenu extends BaseScreen {
         table.row();
         table.add(quit).uniform().fill().padBottom(viewheight/40);
         
-        
-        
         //Stages
         Container<Table> tableContainer = new Container<Table>();
+        tableContainer.setFillParent(true);
+        tableContainer.setPosition(0,0);
+        tableContainer.align(Align.center);
+
         this.stage = new Stage(new FitViewport(1920,1080));
 
         tableContainer.setActor(table);

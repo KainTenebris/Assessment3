@@ -25,8 +25,6 @@ public class DepartmentScreen extends BaseScreen {
         
         this.player = main.getPlayer();
         this.toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
-
-        
         
         //Labels
         //Create labels
@@ -40,9 +38,7 @@ public class DepartmentScreen extends BaseScreen {
         //set alignment for labels
         pointsLabel.setAlignment(Align.left);
         goldLabel.setAlignment(Align.left);
-        
-        
-        
+
         //TextButtons
         //create Buttons
         final TextButton upgrade;
@@ -50,10 +46,10 @@ public class DepartmentScreen extends BaseScreen {
         final TextButton leave = new TextButton("Leave", main.getSkin());
         
         //edit text on buttons
-        if(department.getProduct().equals("minigame")) {
+        if(department.getProduct() == Department.Stat.Minigame) {
             upgrade = new TextButton("Enter the tavern to gamble!", main.getSkin());
         } else {
-            upgrade = new TextButton("Upgrade Ship "+ department.getProduct() + " for " + department.getPrice() + " gold", main.getSkin());
+            upgrade = new TextButton("Upgrade Ship "+ department.getProduct().toString() + " for " + department.getPrice() + " gold", main.getSkin());
         }
         if (toHeal == 0) { heal.setText("Your ship is already fully repaired!"); }
         
@@ -61,12 +57,12 @@ public class DepartmentScreen extends BaseScreen {
         upgrade.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(department.getProduct().equals("minigame")) {
+                if(department.getProduct() == Department.Stat.Minigame) {
                     startMinigame();
                     upgrade.setText("Enter the tavern to gamble!");
                 } else {
                     department.purchase();
-                    upgrade.setText("Upgrade Ship " + department.getProduct() + " for " + department.getPrice() + " gold");
+                    upgrade.setText("Upgrade Ship " + department.getProduct().toString() + " for " + department.getPrice() + " gold");
                 }
             }
         });
@@ -92,8 +88,6 @@ public class DepartmentScreen extends BaseScreen {
            }
         });
 
-
-        
         //Tables
         //Create tables
         Table uiTable = new Table();
@@ -117,8 +111,6 @@ public class DepartmentScreen extends BaseScreen {
         optionsTable.add(heal);
         optionsTable.row();
         optionsTable.add(leave);
-
-        
         
         //Stages
         uiStage.addActor(uiTable);
@@ -133,7 +125,6 @@ public class DepartmentScreen extends BaseScreen {
         goldLabel.setText(Integer.toString(pirateGame.getPlayer().getGold()));
         pointsLabel.setText(Integer.toString(pirateGame.getPlayer().getPoints()));
         toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
-
     }
 
     //Starts the minigame
@@ -147,6 +138,3 @@ public class DepartmentScreen extends BaseScreen {
         Gdx.input.setInputProcessor(mainStage);
     }
 }
-
-
-

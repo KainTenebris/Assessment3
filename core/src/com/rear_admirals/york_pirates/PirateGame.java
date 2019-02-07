@@ -33,7 +33,6 @@ public class PirateGame extends Game {
 	
 	//Setters
 	public void setSkin(Skin skin) { this.skin = skin; }
-	public void setSailingScene(Screen screen) { this.sailingScene = screen; }
 
 	//calls the reset, then sets the screen to main menu
 	public void create(){
@@ -43,32 +42,31 @@ public class PirateGame extends Game {
 
 	//Basically a constructor. Called when starting the game and when returning to the main menu.
 	public void reset() {
-		this.player = new Player();
-		this.sailingScene = new SailingScreen(this);
 		this.skin = new Skin(Gdx.files.internal("flat-earth-ui.json"));
 		this.font = new BitmapFont();
 		this.batch = new SpriteBatch();
 		
 		//Gives window a title
 		Gdx.graphics.setTitle("York Pirates!");
-
-		
 		
 		//creates Maps to store Departments and Colleges
 		departments = new HashMap<String, Department>();
 		colleges = new HashMap<String, College>();
 
 		//puts Departments in map
-		departments.put("Chemistry", new Department("Chemistry", "Attack", this));
-		departments.put("Physics", new Department("Physics", "minigame", this));
-//	        departments.put("Computer Science", new Department("Computer Science", "minigame", this));
+		departments.put("Chemistry", new Department("Chemistry", Department.Stat.Attack, this));
+		departments.put("Physics", new Department("Physics", Department.Stat.Defence, this));
+		departments.put("Computer Science", new Department("Computer Science", Department.Stat.Minigame, this));
 
 		//puts Colleges in map
 		colleges.put("Derwent", new College("Derwent"));
 		colleges.put("Vanbrugh", new College("Vanbrugh"));
 		colleges.put("James", new College("James"));
-//		colleges.put("College1", new College("College1"));
-//		colleges.put("College2", new College("College2"));
+		colleges.put("Constantine", new College("Constantine"));
+		colleges.put("Goodricke", new College("Goodricke"));
+
+		this.player = new Player();
+		this.sailingScene = new SailingScreen(this);
 	}
 
 	//clears screen

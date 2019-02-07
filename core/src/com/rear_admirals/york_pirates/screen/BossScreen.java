@@ -7,7 +7,7 @@ import com.rear_admirals.york_pirates.screen.combat.CombatScreen;
 
 import static com.rear_admirals.york_pirates.ShipType.Warship;
 
-//just in case want to change how a boss would appear
+//Just in case we want to change things independently of other screens
 //music/backgrounds etc
 public class BossScreen extends CombatScreen {
 

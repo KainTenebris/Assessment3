@@ -72,14 +72,10 @@ public class SailingScreen extends BaseScreen {
         this.timer = 0f;
         this.seconds = 0;
         
-        
-        
         //Lists
         obstacleList = new ArrayList<BaseActor>();
         removeList = new ArrayList<BaseActor>();
         regionList = new ArrayList<BaseActor>();
-
-        
         
         //Labels
         //create labels
@@ -109,10 +105,8 @@ public class SailingScreen extends BaseScreen {
         }
         objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: N", main.getSkin(), "default_black"));
         
-        
-        
         //Map
-        this.tiledMap = new TmxMapLoader().load("game_map.tmx");
+        this.tiledMap = new TmxMapLoader().load("tile_map updated.tmx");
         this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         MapLayers maplayers = tiledMap.getLayers();
         MapObjects objects = maplayers.get("ObjectData").getObjects();
@@ -147,8 +141,11 @@ public class SailingScreen extends BaseScreen {
                 if (objectName.equals("derwent")) solid.setCollege(colleges.get("Derwent"));
                 else if (objectName.equals("james")) solid.setCollege(colleges.get("James"));
                 else if (objectName.equals("vanbrugh")) solid.setCollege(colleges.get("Vanbrugh"));
+                else if (objectName.equals("goodricke")) solid.setCollege(colleges.get("Goodricke"));
+                else if (objectName.equals("Constantine")) solid.setCollege(colleges.get("Constantine"));
                 else if (objectName.equals("chemistry"))solid.setDepartment(departments.get("Chemistry"));
                 else if (objectName.equals("physics")) solid.setDepartment(departments.get("Physics"));
+                else if (objectName.equals("Computer Science")) solid.setDepartment(departments.get("Computer Science"));
                 //else if(objectName.equals("")) solid.setxyz(abc);
                 obstacleList.add(solid);
             } else {
@@ -172,22 +169,19 @@ public class SailingScreen extends BaseScreen {
                 if (object.getName().equals("derwentregion")) region.setCollege(colleges.get("Derwent"));
                 else if (object.getName().equals("jamesregion")) region.setCollege(colleges.get("James"));
                 else if (object.getName().equals("vanbrughregion")) region.setCollege(colleges.get("Vanbrugh"));
-                //else if (object.getName().equals("collegeregion")) region.setCollege(colleges.get("college"));
+                else if (object.getName().equals("goodrickeregion")) region.setCollege(colleges.get("Goodricke"));
+                else if (object.getName().equals("constantineregion")) region.setCollege(colleges.get("Constantine"));
                 regionList.add(region);
             } else {
                 System.err.println("Unknown RegionData object.");
             }
         }
         
-        
-        
         //Camera
         this.tiledCamera = new OrthographicCamera();
         
         tiledCamera.setToOrtho(false, viewwidth, viewheight);
         tiledCamera.update();
-        
-        
         
         //Tables
         //create tables
@@ -219,8 +213,6 @@ public class SailingScreen extends BaseScreen {
         messageTable.row();
         messageTable.add(bossMessage);
         
-        
-        
         //Stages
         InputMultiplexer im = new InputMultiplexer(uiStage, mainStage);
         uiStage.addActor(uiTable);
@@ -241,9 +233,7 @@ public class SailingScreen extends BaseScreen {
             objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: Y", pirateGame.getSkin(), "default_black"));
             uiStage.addActor(new Label("You have conquered York! Final score: " + pirateGame.getPlayer().getPoints() + "\nPress any key to return to the main menu.",
                     pirateGame.getSkin(), "default_black"));
-            while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-
-            }
+            while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY));
             pirateGame.reset();
             pirateGame.setScreen(new MainMenu(pirateGame));
         }
@@ -268,7 +258,6 @@ public class SailingScreen extends BaseScreen {
                 }
             }
         }
-
         if (!x) {
             mapMessage.setText("Neutral Territory");
         }

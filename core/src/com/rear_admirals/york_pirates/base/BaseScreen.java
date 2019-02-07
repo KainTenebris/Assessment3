@@ -23,9 +23,6 @@ public abstract class BaseScreen implements Screen {
         this.uiStage = new Stage(new FitViewport(this.viewwidth, this.viewheight));
     }
 
-    //Method needed to implement Screen
-    public abstract void update(float delta);
-
     //Draws the stages
     public void render (float delta) {
         this.uiStage.act(delta);
@@ -49,6 +46,28 @@ public abstract class BaseScreen implements Screen {
     public void resize(int width, int height) {
         this.uiStage.getViewport().update(width, height);
         this.mainStage.getViewport().update(width, height);
+    }
+
+    //The following exist only to satisfy the Screen interface
+
+    public void show() {
+
+    }
+
+    public void pause() {
+
+    }
+
+    public void resume() {
+
+    }
+
+    public void update(float delta) {
+
+    }
+
+    public void hide() {
+
     }
 }
 

@@ -265,7 +265,6 @@ public class CombatScreen extends BaseScreen {
     // combat Handler
     //  This function handles the ship combat using BattleEvent enum type
     public void combatHandler(BattleEvent status){
-
         if (!combatStack.empty()){
             currentAttack = combatStack.pop();
         }
@@ -340,7 +339,7 @@ public class CombatScreen extends BaseScreen {
                 player.addGold(20);
                 player.addPoints(20);
                 dialog("Congratulations, you have defeated Enemy " + enemy.getName(), BattleEvent.SCENE_RETURN);
-                if (enemy.getIsBoss() == true) {
+                if (enemy.getIsBoss()) {
                     enemy.getCollege().setBossDead(true);
                     this.player.getPlayerShip().getCollege().addAlly(this.enemy.getCollege());
                 }
@@ -352,9 +351,7 @@ public class CombatScreen extends BaseScreen {
                 break;
             case SCENE_RETURN:
                 if(player.getPlayerShip().getHealth() <= 0) {
-                    while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-
-                    }
+                    while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY));
                     pirateGame.reset();
                     pirateGame.setScreen(new MainMenu(pirateGame));
                 }

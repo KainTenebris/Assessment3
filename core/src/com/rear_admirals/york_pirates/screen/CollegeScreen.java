@@ -23,8 +23,6 @@ public class CollegeScreen extends BaseScreen {
         super(main);
         this.player = main.getPlayer();
         toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
-
-        
         
         //Labels
         //create the labels
@@ -38,8 +36,6 @@ public class CollegeScreen extends BaseScreen {
         //align the labels
         pointsLabel.setAlignment(Align.left);
         goldLabel.setAlignment(Align.left);
-        
-        
         
         //Buttons
         final TextButton heal = new TextButton("Repair Ship for "+ Integer.toString(toHeal/10) +" gold", main.getSkin());
@@ -88,8 +84,6 @@ public class CollegeScreen extends BaseScreen {
         //align the tables
         uiTable.align(Align.topRight);
         uiTable.setFillParent(true);
-
-        
         
         //Stages
         uiStage.addActor(uiTable);

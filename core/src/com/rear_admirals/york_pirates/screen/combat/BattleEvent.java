@@ -7,7 +7,7 @@ public enum BattleEvent {
     PLAYER_MOVE,
     // Enemy ships turn
     ENEMY_MOVE,
-    // Player's previous move is charged (special attacks)
+    // Player loses the battle
     PLAYER_DIES,
     // Enemy ship sunk
     ENEMY_DIES,

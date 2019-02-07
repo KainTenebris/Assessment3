@@ -6,12 +6,16 @@ import static java.lang.Math.pow;
 public class Department {
 
     private final String name;
-    private String product;
+    private Stat product;
     private int base_price;
     private PirateGame pirateGame;
 
+    public enum Stat {
+        Attack, Defence, Minigame;
+    }
+
     //Constructor
-    public Department(String name, String product, PirateGame pirateGame) {
+    public Department(String name, Stat product, PirateGame pirateGame) {
         this.name = name;
         this.product = product;
         this.base_price = 10;
@@ -20,9 +24,9 @@ public class Department {
     
     //Getters
     public String getName() { return name; }
-    public String getProduct() { return product; }
+    public Stat getProduct() { return product; }
     public int getPrice() {
-        if ((product.equals("Defence")) || (product.equals("Attack"))) {
+        if (product == Stat.Defence || product == Stat.Attack) {
             return base_price;
         } else {return 0;}
     }
@@ -30,14 +34,16 @@ public class Department {
     //Upgrades stat of the ship(product of dep) by 1
     public boolean purchase(){
         if (!pirateGame.getPlayer().payGold(getPrice())){ return false; }
+
         switch (product) {
-            case "Attack":  pirateGame.getPlayer().getPlayerShip().setAttack(pirateGame.getPlayer().getPlayerShip().getAttack() + 1);
-                            return true;
-                            break;
-            case "Defence": pirateGame.getPlayer().getPlayerShip().setDefence(pirateGame.getPlayer().getPlayerShip().getDefence() + 1);
-                            return true;
-                            break
-            default:        return false;
+            case Attack:
+                pirateGame.getPlayer().getPlayerShip().setAttack(pirateGame.getPlayer().getPlayerShip().getAttack() + 1);
+                return true;
+            case Defence:
+                pirateGame.getPlayer().getPlayerShip().setDefence(pirateGame.getPlayer().getPlayerShip().getDefence() + 1);
+                return true;
+            default:
+                return false;
         }
     }
 }
