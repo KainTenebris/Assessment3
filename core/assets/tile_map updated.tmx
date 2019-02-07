@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="64" tileheight="64" infinite="0" nextlayerid="10" nextobjectid="801">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="64" tileheight="64" infinite="0" nextlayerid="10" nextobjectid="826">
  <tileset firstgid="1" source="rpg-tiles-64.tsx.tsx"/>
  <tileset firstgid="261" source="map-tiles-64.tsx"/>
  <layer id="1" name="Water" width="80" height="80" locked="1" opacity="0.92">
@@ -32,10 +32,10 @@
    eJztzjEBAAAIA6AZzP61zOClByQgAQAAAAAAAAAAAACAH7quBwAAAAAAAAAAAAAAAAB7A0GKAD8=
   </data>
  </layer>
- <objectgroup id="5" name="ObjectData">
+ <objectgroup id="5" name="ObjectData" locked="1">
   <object id="1" name="player" x="2598.67" y="2113.33" width="25.3333" height="62.6667"/>
  </objectgroup>
- <objectgroup id="6" name="PhysicsData">
+ <objectgroup id="6" name="PhysicsData" locked="1">
   <object id="8" name="chemistry" x="1348" y="1920" width="92" height="64"/>
   <object id="9" name="chemistry" x="1444" y="1928" width="10.6667" height="157.333"/>
   <object id="10" name="chemistry" x="1220" y="2081.33" width="206.667" height="26.6667"/>
@@ -730,7 +730,7 @@
   <object id="748" name="Computer Science" x="2350" y="2250" width="82" height="78"/>
   <object id="749" name="Computer Science" x="2416" y="2286" width="114" height="48"/>
   <object id="750" name="Computer Science" x="2510" y="2246" width="80" height="66"/>
-  <object id="752" x="2582" y="2250" width="32" height="124"/>
+  <object id="752" name="Computer Science" x="2582" y="2250" width="32" height="124"/>
   <object id="753" name="Computer Science" x="2614" y="2256" width="56" height="168"/>
   <object id="755" name="Constantine" x="4" y="1408" width="244" height="56"/>
   <object id="756" name="Constantine" x="196" y="1340" width="66" height="94"/>
@@ -748,34 +748,35 @@
   <object id="768" name="Constantine" x="236" y="212" width="82" height="96"/>
   <object id="769" name="Constantine" x="122" y="276" width="130" height="92"/>
   <object id="770" name="Constantine" x="140" y="342" width="98" height="148"/>
-  <object id="799" name="goodrickeregion" x="1912" y="2716" width="1168" height="1552"/>
+  <object id="803" name="goodricke" x="2126" y="2950" width="356" height="34"/>
+  <object id="804" name="goodricke" x="2448" y="2886" width="412" height="78"/>
+  <object id="805" name="goodricke" x="2842" y="2952" width="212" height="112"/>
+  <object id="806" name="goodricke" x="3014" y="3012" width="46" height="474"/>
+  <object id="807" name="goodricke" x="2922" y="3414" width="88" height="166"/>
+  <object id="808" name="goodricke" x="2978" y="3410" width="60" height="48"/>
+  <object id="809" name="goodricke" x="2320" y="3786" width="482" height="66"/>
+  <object id="810" name="goodricke" x="2740" y="3722" width="82" height="94"/>
+  <object id="811" name="goodricke" x="2784" y="3688" width="142" height="84"/>
+  <object id="812" name="goodricke" x="2870" y="3536" width="72" height="222"/>
+  <object id="813" name="goodricke" x="2310" y="3610" width="48" height="196"/>
+  <object id="814" name="goodricke" x="2332" y="3586" width="134" height="50"/>
+  <object id="815" name="goodricke" x="2428" y="3474" width="62" height="136"/>
+  <object id="816" name="goodricke" x="2464" y="3414" width="30" height="128"/>
+  <object id="817" name="goodricke" x="2478" y="3388" width="204" height="44"/>
+  <object id="818" name="goodricke" x="2564" y="3326" width="226" height="90"/>
+  <object id="819" name="goodricke" x="2774" y="3200" width="60" height="178"/>
+  <object id="820" name="goodricke" x="2390" y="3166" width="426" height="48"/>
+  <object id="821" name="goodricke" x="2298" y="3150" width="110" height="94"/>
+  <object id="822" name="goodricke" x="1996" y="3228" width="366" height="86"/>
+  <object id="823" name="goodricke" x="1994" y="3094" width="70" height="188"/>
+  <object id="824" name="goodricke" x="2038" y="3024" width="100" height="96"/>
+  <object id="825" name="goodricke" x="2102" y="2952" width="54" height="98"/>
  </objectgroup>
- <objectgroup id="7" name="RegionData">
+ <objectgroup id="7" name="RegionData" locked="1">
   <object id="721" name="derwentregion" x="0" y="2728" width="1800" height="2392"/>
   <object id="722" name="vanbrughregion" x="3105.88" y="2784" width="2000" height="2548"/>
   <object id="723" name="jamesregion" x="3152" y="8" width="1976" height="2336"/>
   <object id="773" name="constantineregion" x="-4" y="-4" width="1380" height="2308"/>
-  <object id="775" name="goodricke" x="2314" y="3594" width="80" height="242"/>
-  <object id="776" name="goodricke" x="2352" y="3774" width="448" height="62"/>
-  <object id="777" name="goodricke" x="2344" y="3582" width="180" height="18"/>
-  <object id="778" name="goodricke" x="2428" y="3458" width="34" height="160"/>
-  <object id="779" name="goodricke" x="2446" y="3472" width="136" height="40"/>
-  <object id="780" name="goodricke" x="2504" y="3398" width="56" height="100"/>
-  <object id="781" name="goodricke" x="2560" y="3330" width="242" height="92"/>
-  <object id="782" name="goodricke" x="2766" y="3190" width="56" height="158"/>
-  <object id="785" name="goodricke" x="2384" y="3162" width="416" height="32"/>
-  <object id="786" name="goodricke" x="2352" y="3132" width="80" height="112"/>
-  <object id="787" name="goodricke" x="1994" y="3226" width="362" height="96"/>
-  <object id="788" name="goodricke" x="1984" y="3068" width="38" height="212"/>
-  <object id="789" name="goodricke" x="2000" y="3078" width="140" height="16"/>
-  <object id="790" name="goodricke" x="2072" y="3010" width="66" height="78"/>
-  <object id="791" name="goodricke" x="2120" y="2940" width="360" height="82"/>
-  <object id="792" name="goodricke" x="2438" y="2896" width="440" height="44"/>
-  <object id="793" name="goodricke" x="2850" y="2938" width="196" height="84"/>
-  <object id="794" name="goodricke" x="3022" y="2962" width="42" height="486"/>
-  <object id="795" name="goodricke" x="2958" y="3422" width="92" height="34"/>
-  <object id="796" name="goodricke" x="2954" y="3444" width="38" height="134"/>
-  <object id="797" name="goodricke" x="2898" y="3546" width="56" height="224"/>
-  <object id="798" name="goodricke" x="2736" y="3738" width="178" height="44"/>
+  <object id="802" name="goodrickeregion" x="1836" y="2520" width="1244" height="2124"/>
  </objectgroup>
 </map>
