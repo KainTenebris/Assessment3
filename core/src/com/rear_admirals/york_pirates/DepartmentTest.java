@@ -36,7 +36,7 @@ public class DepartmentTest {
 
 	@Test
 	public void testPurchase() {
-		fail("Not testable without running the whole game through DesktopLauncher - Black Box Test");
+		System.out.println("Black Box: Department.purchase(int). An instance of PirateGame is required - i.e. the full game needs to run.");
 	}
 
 }

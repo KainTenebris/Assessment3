@@ -16,9 +16,8 @@ public class ShipType {
 		this.attack = attack;
 		this.defence = defence;
 		this.accuracy = accuracy;
-		this.texture = new Texture("ship4.png"); //TESTING (without assets created)
 		this.health = health;
-	} // There is currently no way to give ships a custom texture. Do we need this?
+	}
 
 	//Getters
 	public String getName() { return name; }
@@ -26,7 +25,6 @@ public class ShipType {
 	public int getDefence() { return defence; }
 	public int getAccuracy() { return accuracy; }
 	public int getHealth() { return health; }
-	public Texture getTexture() { return texture; }
 
 	// Static Ship Types go here
 //	public static ShipType Sloop = new ShipType("Sloop", 4, 4, 7, 80);
