@@ -49,25 +49,10 @@ public abstract class BaseScreen implements Screen {
     }
 
     //The following exist only to satisfy the Screen interface
-
-    public void show() {
-
-    }
-
-    public void pause() {
-
-    }
-
-    public void resume() {
-
-    }
-
-    public void update(float delta) {
-
-    }
-
-    public void hide() {
-
-    }
+    public void show() {    }
+    public void pause() {   }
+    public void resume() {  }
+    public void update(float delta) {   }
+    public void hide() {    }
 }
 
