@@ -2,6 +2,7 @@ package com.rear_admirals.york_pirates.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -40,11 +41,30 @@ public class MainMenu extends BaseScreen {
 
         //TextButtons
         //create TextButtons
-        TextButton play = new TextButton("Start Game", pirateGame.getSkin()); // Starts sailing mode.
+        TextButton play = new TextButton("New Game", pirateGame.getSkin()); // Starts sailing mode.
+        TextButton continueGame = new TextButton("Continue Game", pirateGame.getSkin());
         TextButton quickplay = new TextButton("Quick Play", pirateGame.getSkin());
         TextButton quit = new TextButton("Quit", pirateGame.getSkin());
         
         //adds listeners to buttons
+        play.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Preferences prefs = Gdx.app.getPreferences("pirategamesave");
+                prefs.clear();
+                prefs.flush();
+                pirateGame.setScreen(pirateGame.getSailingScene());
+                dispose();
+            }
+        });
+        continueGame.addListener(new ClickListener(){
+           @Override
+           public void clicked(InputEvent event, float x, float y) {
+               pirateGame.load();
+               pirateGame.setScreen(pirateGame.getSailingScene());
+               dispose();
+           }
+        });
         quickplay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -65,13 +85,6 @@ public class MainMenu extends BaseScreen {
                 dispose();
             }
         });
-        play.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                pirateGame.setScreen(pirateGame.getSailingScene());
-                dispose();
-            }
-        });
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -85,6 +98,8 @@ public class MainMenu extends BaseScreen {
         
         //adds to tables
         table.add(title).padBottom(viewwidth/20).width(viewwidth/2);
+        table.row();
+        table.add(continueGame).uniform().padBottom(viewheight/40).size(viewwidth/2,viewheight/10);
         table.row(); // Ends the current row
         table.add(play).uniform().padBottom(viewheight/40).size(viewwidth/2,viewheight/10);
         table.row();

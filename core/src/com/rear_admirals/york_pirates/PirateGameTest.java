@@ -7,5 +7,6 @@ public class PirateGameTest {
     @Test
     public void testPirateGame() {
         System.out.println("Black Box: PirateGame class, can't test without running the game - libgdx crashes without launching DesktopLauncher");
+        System.out.println("Black Box: saving & loading, can't test without running the game - libgdx crashes without launching DesktopLauncher");
     }
 }

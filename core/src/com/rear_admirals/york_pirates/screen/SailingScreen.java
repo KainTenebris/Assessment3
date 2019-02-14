@@ -104,7 +104,7 @@ public class SailingScreen extends BaseScreen {
             if(playerShip.getCollege() == college || playerShip.getCollege().getAlly().contains(college)) {
                 objectiveLabels.put(college.getName(), new Label(college.getName() + " Allied: " + "Y", main.getSkin(), "default_black"));
             } else {
-                objectiveLabels.put(college.getName(), new Label(college.getName() + "Allied: " + "N", main.getSkin(), "default_black"));
+                objectiveLabels.put(college.getName(), new Label(college.getName() + " Allied: " + "N", main.getSkin(), "default_black"));
             }
         }
         objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: N", main.getSkin(), "default_black"));
@@ -187,10 +187,11 @@ public class SailingScreen extends BaseScreen {
         tiledCamera.setToOrtho(false, viewwidth, viewheight);
         tiledCamera.update();
 
-        TextButton quit = new TextButton("Quit", pirateGame.getSkin());
+        TextButton quit = new TextButton("Save & Quit", pirateGame.getSkin());
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                pirateGame.save();
                 pirateGame.reset();
                 pirateGame.setScreen(new MainMenu(pirateGame));
                 dispose();
@@ -301,9 +302,6 @@ public class SailingScreen extends BaseScreen {
                     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                         if (!isAlly && !obstacle.getCollege().isBossDead()) {
                             pirateGame.setScreen(new CombatScreen(pirateGame, new Ship(15, 15, 15, Galleon, college, college.getName() + " Boss", true)));
-                            if(playerShip.getCollege().getAlly().contains(college)) {
-                                objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "Y");
-                            }
                             College playerCollege = playerShip.getCollege();
                             boolean allAllied = true;
                             for(College col : colleges.values()) {
@@ -386,6 +384,21 @@ public class SailingScreen extends BaseScreen {
     public void show() {
         InputMultiplexer im = new InputMultiplexer(uiStage, mainStage);
         Gdx.input.setInputProcessor(im);
+
+        for(College college : colleges.values()) {
+            System.out.print(college.getName() + ": ");
+            if(playerShip.getCollege() == college || playerShip.getCollege().getAlly().contains(college)) {
+                System.out.println("Y");
+                objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "Y");
+            } else {
+                System.out.println("N");
+                objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "N");
+            }
+        }
+        for(Label label : objectiveLabels.values()) {
+            System.out.println(label.getText());
+        }
+        objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: N", pirateGame.getSkin(), "default_black"));
     }
 
     //disposes of the screen

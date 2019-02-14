@@ -2,6 +2,7 @@ package com.rear_admirals.york_pirates;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -80,5 +81,72 @@ public class PirateGame extends Game {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
+	}
+
+	/*
+		Things to save:
+		player gold
+		player points
+		ship name;
+		ship attack;
+		ship defence;
+		ship accuracy;
+		ship health;
+		ship type (new type with other values);
+		ship healthMax;
+		ships college name (just use colleges.get() on load);
+		ship position
+		allied colleges
+		 */
+	public void save() {
+		Preferences prefs = Gdx.app.getPreferences("pirategamesave");
+
+		prefs.putInteger("gold", player.getGold());
+		prefs.putInteger("points", player.getPoints());
+		Ship playerShip = player.getPlayerShip();
+		prefs.putString("ship name", playerShip.getName());
+		prefs.putInteger("ship attack", playerShip.getAttack());
+		prefs.putInteger("ship defence", playerShip.getDefence());
+		prefs.putInteger("ship accuracy", playerShip.getAccuracy());
+		prefs.putInteger("ship health", playerShip.getHealth());
+		prefs.putInteger("ship healthMax", playerShip.getHealthMax());
+		prefs.putFloat("shipX", playerShip.getX());
+		prefs.putFloat("shipY", playerShip.getY());
+		String allies = playerShip.getCollege().getName();
+		for(College college : playerShip.getCollege().getAlly()) {
+			allies += ";" + college.getName();// college1;college2;college3
+		}
+		prefs.putString("allies", allies);
+		prefs.flush();
+	}
+
+	public void load() {
+		Preferences prefs = Gdx.app.getPreferences("pirategamesave");
+		Player defaultPlayer = new Player();
+		Ship defaultShip = defaultPlayer.getPlayerShip();
+		Ship playerShip = player.getPlayerShip();
+
+		player.setGold(prefs.getInteger("gold", defaultPlayer.getGold()));
+		player.setPoints(prefs.getInteger("points", defaultPlayer.getPoints()));
+
+		playerShip.setAttack(prefs.getInteger("ship attack", defaultShip.getAttack()));
+		playerShip.setDefence(prefs.getInteger("ship defence", defaultShip.getDefence()));
+		playerShip.setHealthMax(prefs.getInteger("ship healthMax", defaultShip.getHealthMax()));
+		playerShip.setAccuracy(prefs.getInteger("ship accuracy", defaultShip.getAccuracy()));
+		playerShip.setCollege(colleges.get(prefs.getString("college", defaultShip.getCollege().getName())));
+		playerShip.setName(prefs.getString("ship name", defaultShip.getName()));
+		playerShip.setHealth(prefs.getInteger("ship health", defaultShip.getHealth()));
+		playerShip.setPosition(500, 500);
+		playerShip.setPosition(prefs.getFloat("shipX", playerShip.getX()), prefs.getFloat("shipY", playerShip.getY()));
+		String sAllies = prefs.getString("allies", "MISSING");
+		if(!sAllies.equals("MISSING")) {
+			ArrayList<College> allies = playerShip.getCollege().getAlly();
+			for(String collegeName : sAllies.split(";")) {
+				College college = colleges.get(collegeName);
+				if(!allies.contains(college)) {
+					playerShip.getCollege().addAlly(college);
+				}
+			}
+		}
 	}
 }

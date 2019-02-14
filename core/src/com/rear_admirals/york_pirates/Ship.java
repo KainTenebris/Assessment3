@@ -81,6 +81,19 @@ public class Ship extends PhysicsActor {
 		setupShip();
 	}
 
+	public Ship(int attack, int defence, int accuracy, ShipType type, College college, String name, int health, int healthMax) {
+		this.attack = attack;
+		this.defence = defence;
+		this.accuracy = accuracy;
+		this.type = type;
+		this.name = name;
+		this.healthMax = healthMax;
+		this.college = college;
+		this.health = health;
+		this.sailingTexture = new Texture(Gdx.files.internal("ship (1).png"));
+		setupShip();
+	}
+
 	//sets up the ship for sailing
 	public void setupShip(){
 		this.setWidth(this.sailingTexture.getWidth());
@@ -109,6 +122,7 @@ public class Ship extends PhysicsActor {
 	public void setName(String name) { this.name = name; }
 	public void setAccuracy(int accuracy) { this.accuracy = accuracy; }
 	public void setHealth(int health) { this.health = health; }
+	public void setHealthMax(int health) { this.healthMax = health; }
 	public void setType(ShipType type) { this.type = type; }
 	public void damage(int amt) { health = health - amt; }
 	public void setDefence(int defence) {
