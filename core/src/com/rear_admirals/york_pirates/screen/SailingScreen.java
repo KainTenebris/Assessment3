@@ -386,17 +386,11 @@ public class SailingScreen extends BaseScreen {
         Gdx.input.setInputProcessor(im);
 
         for(College college : colleges.values()) {
-            System.out.print(college.getName() + ": ");
             if(playerShip.getCollege() == college || playerShip.getCollege().getAlly().contains(college)) {
-                System.out.println("Y");
                 objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "Y");
             } else {
-                System.out.println("N");
                 objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "N");
             }
-        }
-        for(Label label : objectiveLabels.values()) {
-            System.out.println(label.getText());
         }
         objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: N", pirateGame.getSkin(), "default_black"));
     }
