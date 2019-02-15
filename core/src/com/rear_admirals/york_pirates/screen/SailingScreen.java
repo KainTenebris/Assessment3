@@ -249,9 +249,6 @@ public class SailingScreen extends BaseScreen {
             objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: Y", pirateGame.getSkin(), "default_black"));
             uiStage.addActor(new Label("You have conquered York! Final score: " + pirateGame.getPlayer().getPoints() + "\nPress any key to return to the main menu.",
                     pirateGame.getSkin(), "default_black"));
-            while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY));
-            pirateGame.reset();
-            pirateGame.setScreen(new MainMenu(pirateGame));
         }
 
         boolean x = false;
@@ -302,18 +299,6 @@ public class SailingScreen extends BaseScreen {
                     if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                         if (!isAlly && !obstacle.getCollege().isBossDead()) {
                             pirateGame.setScreen(new CombatScreen(pirateGame, new Ship(15, 15, 15, Galleon, college, college.getName() + " Boss", true)));
-                            College playerCollege = playerShip.getCollege();
-                            boolean allAllied = true;
-                            for(College col : colleges.values()) {
-                                if(!playerCollege.getAlly().contains(col)) {
-                                    allAllied = false;
-                                    break;
-                                }
-                            }
-                            if(allAllied) {
-                                isFinalBossReady = true;
-                                bossMessage.setText("Press U to fight the YSJ Admiral and conquer York!");
-                            }
                         } else {
                             pirateGame.setScreen(new CollegeScreen(pirateGame, college));
                         }
@@ -385,12 +370,21 @@ public class SailingScreen extends BaseScreen {
         InputMultiplexer im = new InputMultiplexer(uiStage, mainStage);
         Gdx.input.setInputProcessor(im);
 
+        this.playerShip = pirateGame.getPlayer().getPlayerShip();
+
+        boolean allAllied = true;
+        ArrayList<College> allies = playerShip.getCollege().getAlly();
         for(College college : colleges.values()) {
-            if(playerShip.getCollege() == college || playerShip.getCollege().getAlly().contains(college)) {
+            if(allies.contains(college)) {
                 objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "Y");
             } else {
                 objectiveLabels.get(college.getName()).setText(college.getName() + " Allied: " + "N");
+                allAllied = false;
             }
+        }
+        if(allAllied) {
+            isFinalBossReady = true;
+            bossMessage.setText("Press U to fight the YSJ Admiral and conquer York!");
         }
         objectiveLabels.put("YSJ", new Label("Defeat the Admiral of YSJ: N", pirateGame.getSkin(), "default_black"));
     }

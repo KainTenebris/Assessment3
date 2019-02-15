@@ -78,10 +78,6 @@ public class CombatScreen extends BaseScreen {
         this.player = pirateGame.getPlayer();
         this.enemy = enemy;
 
-        if(this.enemy.getType().equals("Warship")) {
-            this.player.getPlayerShip().setHealth(this.player.getPlayerShip().getHealthMax());
-        }
-
         // Load the skin for this screen
         pirateGame.setSkin(new Skin(Gdx.files.internal("flat-earth-ui.json")));
 

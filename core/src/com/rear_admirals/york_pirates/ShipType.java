@@ -32,4 +32,5 @@ public class ShipType {
 	public static ShipType Player = new ShipType("Player", 5, 5, 95, 200);
 	public static ShipType Galleon = new ShipType("Galleon", 10, 50, 80, 200);
 	public static ShipType Warship = new ShipType("Warship", 20, 300, 90, 200);
+	public static ShipType Debug = new ShipType("Debug", 10000, 10000, 100, 10000);
 }

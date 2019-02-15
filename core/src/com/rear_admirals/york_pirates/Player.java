@@ -16,7 +16,7 @@ public class Player {
 
 	//Constructor without a given ship
 	public Player() {
-		this.playerShip = new Ship(Player, "Your Ship", PirateGame.colleges.get("Derwent"));
+		this.playerShip = new Ship(Debug, "Your Ship", PirateGame.colleges.get("Derwent"));
 		this.gold = 50;
 		this.points = 0;
 
