@@ -277,10 +277,14 @@ public class CombatScreen extends BaseScreen {
                     combatStack.push(currentAttack);
                     dialog("Charging attack " + currentAttack.getName(), BattleEvent.ENEMY_MOVE);
                 } else if (currentAttack.getName() == "FLEE") {
-                    if (currentAttack.doAttack(player.getPlayerShip(), enemy) == 1) {
-                        dialog("Flee successful!", BattleEvent.PLAYER_FLEES);
+                    if(enemy.getType() == "Warship") {
+                        dialog("You can't flee from this enemy!", BattleEvent.NONE);
                     } else {
-                        dialog("Flee failed.", BattleEvent.ENEMY_MOVE);
+                        if (currentAttack.doAttack(player.getPlayerShip(), enemy) == 1) {
+                            dialog("Flee successful!", BattleEvent.PLAYER_FLEES);
+                        } else {
+                            dialog("Flee failed.", BattleEvent.ENEMY_MOVE);
+                        }
                     }
                 } else {
                     int damage = currentAttack.doAttack(player.getPlayerShip(), enemy); // Calls the attack function on the player and stores damage output
@@ -334,10 +338,15 @@ public class CombatScreen extends BaseScreen {
                 textBox.setStyle(pirateGame.getSkin().get("default", TextButton.TextButtonStyle.class));
                 player.addGold(20);
                 player.addPoints(20);
-                dialog("Congratulations, you have defeated Enemy " + enemy.getName(), BattleEvent.SCENE_RETURN);
-                if (enemy.getIsBoss()) {
-                    enemy.getCollege().setBossDead(true);
-                    this.player.getPlayerShip().getCollege().addAlly(this.enemy.getCollege());
+                System.out.println(enemy.getType());
+                if(enemy.getType() == "Warship") {
+                    dialog("CONGRATULATIONS! You have conquered York! Final Score: " + player.getPoints(), BattleEvent.MAIN_MENU);
+                } else {
+                    dialog("Congratulations, you have defeated Enemy " + enemy.getName(), BattleEvent.SCENE_RETURN);
+                    if (enemy.getIsBoss()) {
+                        enemy.getCollege().setBossDead(true);
+                        this.player.getPlayerShip().getCollege().addAlly(this.enemy.getCollege());
+                    }
                 }
                 break;
             case PLAYER_FLEES:

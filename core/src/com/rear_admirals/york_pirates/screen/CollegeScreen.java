@@ -55,6 +55,7 @@ public class CollegeScreen extends BaseScreen {
                     if (player.payGold(toHeal / 10)) {
                         player.getPlayerShip().setHealth(player.getPlayerShip().getHealthMax());
                         message.setText("Successful repair");
+                        heal.setText("Your ship is already fully repaired!");
                     } else {
                         message.setText("You don't have the funds to repair your ship");
                     }
