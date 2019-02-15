@@ -32,6 +32,7 @@ public class CollegeScreen extends BaseScreen {
         Label title = new Label("Welcome to " + college.getName(), main.getSkin(), "title");
         pointsLabel = new Label(Integer.toString(main.getPlayer().getPoints()), main.getSkin());
         goldLabel = new Label(Integer.toString(main.getPlayer().getGold()), main.getSkin());
+        final TextButton leave = new TextButton("Leave", main.getSkin());
         
         //align the labels
         pointsLabel.setAlignment(Align.left);
@@ -52,7 +53,6 @@ public class CollegeScreen extends BaseScreen {
                 }
                 else {
                     if (player.payGold(toHeal / 10)) {
-                        System.out.println("charged");
                         player.getPlayerShip().setHealth(player.getPlayerShip().getHealthMax());
                         message.setText("Successful repair");
                     } else {
@@ -61,8 +61,13 @@ public class CollegeScreen extends BaseScreen {
                 }
             }
         });
-        
-        
+
+        leave.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                pirateGame.setScreen(pirateGame.getSailingScene());
+                dispose();
+            }
+        });
         
         //Tables
         //create the tables
@@ -80,10 +85,14 @@ public class CollegeScreen extends BaseScreen {
         optionsTable.add(heal);
         optionsTable.row();
         optionsTable.add(message);
+        optionsTable.row();
+        optionsTable.add(leave);
 
         //align the tables
         uiTable.align(Align.topRight);
         uiTable.setFillParent(true);
+        optionsTable.align(Align.center);
+        optionsTable.setFillParent(true);
         
         //Stages
         uiStage.addActor(uiTable);
@@ -94,7 +103,6 @@ public class CollegeScreen extends BaseScreen {
     @Override
     public void update(float delta){
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-            System.out.println("ESCAPE");
             pirateGame.setScreen(pirateGame.getSailingScene());
             dispose();
         }

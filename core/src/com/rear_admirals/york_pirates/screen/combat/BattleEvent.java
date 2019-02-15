@@ -15,4 +15,6 @@ public enum BattleEvent {
     PLAYER_FLEES,
     // Ends combat screen.
     SCENE_RETURN,
+    //Return to main menu.
+    MAIN_MENU
 }

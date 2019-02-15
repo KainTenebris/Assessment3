@@ -332,7 +332,7 @@ public class CombatScreen extends BaseScreen {
                 break;
             case PLAYER_DIES:
                 textBox.setStyle(pirateGame.getSkin().get("red", TextButton.TextButtonStyle.class));
-                dialog("YOU HAVE DIED. Final Score: " + pirateGame.getPlayer().getPoints(), BattleEvent.SCENE_RETURN);
+                dialog("YOU HAVE DIED. Final Score: " + pirateGame.getPlayer().getPoints(), BattleEvent.MAIN_MENU);
                 break;
             case ENEMY_DIES:
                 textBox.setStyle(pirateGame.getSkin().get("default", TextButton.TextButtonStyle.class));
@@ -350,17 +350,19 @@ public class CombatScreen extends BaseScreen {
                 combatHandler(BattleEvent.SCENE_RETURN);
                 break;
             case SCENE_RETURN:
-                if(player.getPlayerShip().getHealth() <= 0) {
-                    while(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY));
-                    pirateGame.reset();
-                    pirateGame.setScreen(new MainMenu(pirateGame));
-                }
                 enemy.setVisible(false);
                 player.getPlayerShip().setSpeed(0);
                 player.getPlayerShip().setAccelerationXY(0,0);
                 player.getPlayerShip().setAnchor(true);
                 toggleAttackStage();
                 pirateGame.setScreen(pirateGame.getSailingScene());
+                dispose();
+                break;
+            case MAIN_MENU:
+                toggleAttackStage();
+                pirateGame.reset();
+                pirateGame.setScreen(new MainMenu(pirateGame));
+                dispose();
                 break;
         }
     }
