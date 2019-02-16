@@ -1,16 +1,14 @@
 package com.rear_admirals.york_pirates.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.rear_admirals.york_pirates.base.BaseScreen;
 import com.rear_admirals.york_pirates.PirateGame;
 import com.rear_admirals.york_pirates.Player;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.rear_admirals.york_pirates.base.BaseScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -34,6 +32,7 @@ public class MiniGameScreen extends BaseScreen{
 
     private Table bet_table;
     private Table higher_lower_table;
+    private Table gold_table;
 
     private Integer gold_available;
     private Integer bet_amount;
@@ -45,6 +44,7 @@ public class MiniGameScreen extends BaseScreen{
     private TextButton three_quarter_bet;
     private TextButton full_bet;
     private TextButton textBox;
+    private TextButton winLose;
 
     //Constructor
     public MiniGameScreen(final PirateGame main){
@@ -135,6 +135,9 @@ public class MiniGameScreen extends BaseScreen{
         TextButton quit = new TextButton("Back To Main Game", pirateGame.getSkin());
         textBox = new TextButton("", pirateGame.getSkin());
 
+        //creates button to win/lose
+        winLose = new TextButton("", pirateGame.getSkin());
+
         //listeners for the buttons
         buttonListener(quarter_bet, 0.25);
         buttonListener(half_bet, 0.5);
@@ -149,6 +152,15 @@ public class MiniGameScreen extends BaseScreen{
                 pirateGame.beforeMinigameScreen.resume();
                 pirateGame.setScreen(pirateGame.beforeMinigameScreen);
                 dispose();
+            }
+        });
+
+        //listener to win/lose
+        winLose.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                textBox.setText("");
+                pirateGame.setScreen(new MiniGameScreen(pirateGame));
             }
         });
 
@@ -173,8 +185,9 @@ public class MiniGameScreen extends BaseScreen{
         Table card_table_back = new Table();
         bet_table = new Table();
         higher_lower_table = new Table();
-        Table gold_table = new Table();
+        gold_table = new Table();
         Table screen_bottom = new Table();
+        Table win_lose_table = new Table();
 
         //create table to choose bets from
         bet_table.row();
@@ -199,7 +212,7 @@ public class MiniGameScreen extends BaseScreen{
         higher_lower_table.setVisible(false);
 
         //create table for the cards to be displayed in
-        card_table_front.row().padBottom(400);
+        card_table_front.row().padBottom(100);
         card_table_front.add(card1).uniform().padRight(button_pad_right);
         card_table_front.add(card2).uniform().padRight(button_pad_right);
         card_table_front.add(card3).uniform().padRight(button_pad_right);
@@ -209,8 +222,13 @@ public class MiniGameScreen extends BaseScreen{
         card2.setVisible(false);
         card3.setVisible(false);
         card4.setVisible(false);
-//        textBox.setVisible(false);
+        winLose.setVisible(false);
         contain.setActor(card_table_front);
+
+        //create win_lose_table
+        win_lose_table.row();
+        card_table_front.add(winLose).colspan(4).fillX().height(viewheight/9f).pad(viewheight/12,0,viewheight/12,0);
+        winLose.setVisible(false);
 
         //create table for gold and bet
         gold_table.row();
@@ -234,6 +252,7 @@ public class MiniGameScreen extends BaseScreen{
 
         uiStage.addActor(contain);
         uiStage.addActor(screen_bottom);
+        uiStage.addActor(win_lose_table);
         uiStage.addActor(higher_lower_table);
 
         //makes everything interactable
@@ -259,7 +278,7 @@ public class MiniGameScreen extends BaseScreen{
     private void play(){
         stage = 1;
         update(bet_amount);
-        bet_table.setVisible(false); //couldn't press buttons. dunno if that was cos you couldn't or I was clicking in the wrong place
+        bet_table.setVisible(false);
         higher_lower_table.setVisible(true);
         buttonListener(higher, true);
         buttonListener(lower,false);
@@ -294,7 +313,10 @@ public class MiniGameScreen extends BaseScreen{
                                     stage+=1;
                                 } else{
                                     player.setGold(gold_available);
-                                    pirateGame.setScreen(new MiniGameScreen(pirateGame));
+                                    winLose.setText("You Lose, better luck next time");
+                                    gold_table.setVisible(false);
+                                    higher_lower_table.setVisible(false);
+                                    winLose.setVisible(true);
                                 }
                                 break;
                     case 2:     turn(stage+1);
@@ -302,17 +324,25 @@ public class MiniGameScreen extends BaseScreen{
                                     stage+=1;
                                 } else{
                                     player.setGold(gold_available);
-                                    pirateGame.setScreen(new MiniGameScreen(pirateGame));
+                                    winLose.setText("You Lose, better luck next time");
+                                    gold_table.setVisible(false);
+                                    higher_lower_table.setVisible(false);
+                                    winLose.setVisible(true);
                                 }
                                 break;
                     case 3:     turn(stage+1);
                                 if (high == (card4_val>card3_val)){
+                                    System.out.println("huh");
                                     gold_available += 2*bet_amount;
-                                    player.setGold(gold_available);
-                                } else{
-                                    player.setGold(gold_available);
+                                    winLose.setText("You Win! Congratulations!");
+                                } else {
+                                    winLose.setText("You Lose, better luck next time");
                                 }
-                                pirateGame.setScreen(new MiniGameScreen(pirateGame));
+                                player.setGold(gold_available);
+                                bet_amount = 0;
+                                gold_table.setVisible(false);
+                                higher_lower_table.setVisible(false);
+                                winLose.setVisible(true);
                                 break;
                     default:    throw new IllegalArgumentException("not valid stage");
                 }
