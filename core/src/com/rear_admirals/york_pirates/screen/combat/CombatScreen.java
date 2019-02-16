@@ -1,7 +1,6 @@
 package com.rear_admirals.york_pirates.screen.combat;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,19 +8,19 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.rear_admirals.york_pirates.screen.MainMenu;
-import com.rear_admirals.york_pirates.screen.combat.attacks.*;
 import com.rear_admirals.york_pirates.PirateGame;
 import com.rear_admirals.york_pirates.Player;
-import com.rear_admirals.york_pirates.base.BaseScreen;
 import com.rear_admirals.york_pirates.Ship;
+import com.rear_admirals.york_pirates.base.BaseScreen;
+import com.rear_admirals.york_pirates.screen.MainMenu;
+import com.rear_admirals.york_pirates.screen.combat.attacks.Attack;
+import com.rear_admirals.york_pirates.screen.combat.attacks.Flee;
+import com.rear_admirals.york_pirates.screen.combat.attacks.GrapeShot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
-
-import static com.rear_admirals.york_pirates.ShipType.Warship;
 
 public class CombatScreen extends BaseScreen {
 
@@ -277,7 +276,7 @@ public class CombatScreen extends BaseScreen {
                     combatStack.push(currentAttack);
                     dialog("Charging attack " + currentAttack.getName(), BattleEvent.ENEMY_MOVE);
                 } else if (currentAttack.getName() == "FLEE") {
-                    if(enemy.getType() == "Warship") {
+                    if(enemy.getType() == "Warship" || enemy.getType() == "Galleon") {
                         dialog("You can't flee from this enemy!", BattleEvent.NONE);
                     } else {
                         if (currentAttack.doAttack(player.getPlayerShip(), enemy) == 1) {
@@ -336,18 +335,24 @@ public class CombatScreen extends BaseScreen {
                 break;
             case ENEMY_DIES:
                 textBox.setStyle(pirateGame.getSkin().get("default", TextButton.TextButtonStyle.class));
-                player.addGold(20);
-                player.addPoints(20);
-                System.out.println(enemy.getType());
-                if(enemy.getType() == "Warship") {
+
+                //if enemy was a boss, then player gets a larger amount of gold/points
+                if (enemy.getType() == "Galleon") {
+                    player.addGold(100);
+                    player.addPoints(100);
+                    dialog("Congratulations, you have captured " + enemy.getCollege().getName() + " College", BattleEvent.SCENE_RETURN);
+                    enemy.getCollege().setBossDead(true);
+                    this.player.getPlayerShip().getCollege().addAlly(this.enemy.getCollege());
+                } else if (enemy.getType() == "Warship") {
+                    player.addGold(1000);
+                    player.addPoints(1000);
                     dialog("CONGRATULATIONS! You have conquered York! Final Score: " + player.getPoints(), BattleEvent.MAIN_MENU);
                 } else {
+                    player.addGold(20);
+                    player.addPoints(20);
                     dialog("Congratulations, you have defeated Enemy " + enemy.getName(), BattleEvent.SCENE_RETURN);
-                    if (enemy.getIsBoss()) {
-                        enemy.getCollege().setBossDead(true);
-                        this.player.getPlayerShip().getCollege().addAlly(this.enemy.getCollege());
-                    }
                 }
+                System.out.println(enemy.getType());
                 break;
             case PLAYER_FLEES:
                 textBox.setStyle(pirateGame.getSkin().get("red", TextButton.TextButtonStyle.class));
