@@ -16,6 +16,7 @@ public class Attack {
 	protected int accPercent;
 
 	// Generic constructor. Creates simple broadside attack.
+	/**Initailises the broadside attack with a name, description, damage multiplier, accuracy multiplier as some of the characteristics*/
 	protected Attack() {
 		this.name = "Broadside";
 		this.desc = "Fire a broadside at your enemy.";
@@ -27,6 +28,16 @@ public class Attack {
 
 	// Custom constructor. Can be used to create any attack which applies a multiple of the attacker's damage
 	// to the defender. Can also take a turn to charge and have custom accuracy.
+	/**Initialises a generic attack. Can be used to create any attack which applies a multiple of the attacker's damage to the defender.
+	 *Can also take a turn to charge and have custom accuracy.
+	 * @param name The name of the attack
+	 * @param accMultiplier The amount it multiplies the player's accuracy by
+	 * @param accPercent The move's accuracy percentage
+	 * @param desc A description of the atack
+	 * @param dmgMultiplier The amount it multiplies the player's damage by
+	 * @param skipMove If it skips a move or not
+	 */
+
 	protected Attack(String name, String desc, int dmgMultiplier, double accMultiplier, boolean skipMove, int accPercent) {
 		this.name = name;
 		this.desc = desc;
@@ -38,15 +49,39 @@ public class Attack {
 	}
 	
 	//Getters
-	public String getName() { return this.name; }
-	public String getDesc() { return this.desc; }
-	public boolean isSkipMove() { return this.skipMove; }
-	public boolean isSkipMoveStatus() { return this.skipMoveStatus; }
+	/**Returns name of attack
+	 * @return name
+	 */
+	public String getName() {
+		return this.name; }
+	/**Returns attack description
+	 * @return desc
+	 */
+	public String getDesc() {
+		return this.desc; }
+	/**Returns if the move will skip
+	 * @return skipmove
+	 */
+	public boolean isSkipMove() {
+		return this.skipMove; }
+	/**Returns the status of the move skip
+	 * @return skipMoveStatus
+	 */
+	public boolean isSkipMoveStatus() {
+		return this.skipMoveStatus; }
 	
 	//Setters
-	public void setSkipMoveStatus(boolean skipMoveStatus) { this.skipMoveStatus = skipMoveStatus; }
+	/**Sets the skipMoveStatus
+	 * @param skipMoveStatus
+	 */
+	public void setSkipMoveStatus(boolean skipMoveStatus) {
+		this.skipMoveStatus = skipMoveStatus; }
 
 	// New function used to check if an attack hits the enemy.
+	/**Function to check if the attack hits the enemy
+	 * @param accPercent move's accuracy percentage
+	 * @param shipAcc Ship's accuracy percentage
+	 */
 	protected boolean doesHit( int shipAcc, int accPercent) {
 		Random ran = new Random();
 		double random = ran.nextDouble();
@@ -58,6 +93,10 @@ public class Attack {
 	}
 
 	// Function called to actually perform the attack.
+	/**Performs the attack and calculates and returns damage
+	 * @param attacker The attacking ship's statistics
+	 * @param defender The defending ship's statistics
+	 */
 	public int doAttack(Ship attacker, Ship defender) {
 		if ( doesHit(attacker.getAccuracy(), this.accPercent) ) {
 			this.damage = attacker.getAttack() * this.dmgMultiplier;

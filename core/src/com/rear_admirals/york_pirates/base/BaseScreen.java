@@ -17,13 +17,18 @@ public abstract class BaseScreen implements Screen {
     protected final int viewheight = 1080;
 
     //Constructor
+    /**Initiates the base screen
+     * @param game The PirateGame type instance
+     */
     public BaseScreen(PirateGame game){
         this.pirateGame = game;
         this.mainStage = new Stage(new FitViewport(this.viewwidth, this.viewheight));
         this.uiStage = new Stage(new FitViewport(this.viewwidth, this.viewheight));
     }
 
-    //Draws the stages
+    /**Draws the stages
+     * @param delta
+     */
     public void render (float delta) {
         this.uiStage.act(delta);
         this.mainStage.act(delta);
@@ -35,7 +40,7 @@ public abstract class BaseScreen implements Screen {
         this.uiStage.draw();
     }
 
-    //disposes of the stages
+    /**disposes of the stages*/
     @Override
     public void dispose () {
         this.mainStage.dispose();
@@ -43,16 +48,20 @@ public abstract class BaseScreen implements Screen {
     }
 
     //resizes the screen
+    /**Re-sizes the screen
+     * @param height The new height
+     * @param width The new width
+     */
     public void resize(int width, int height) {
         this.uiStage.getViewport().update(width, height);
         this.mainStage.getViewport().update(width, height);
     }
 
     //The following exist only to satisfy the Screen interface
-    public void show() {    }
-    public void pause() {   }
-    public void resume() {  }
-    public void update(float delta) {   }
-    public void hide() {    }
+    public void show() { /**empty*/   }
+    public void pause() { /**empty*/  }
+    public void resume() { /**empty*/ }
+    public void update(float delta) { /**empty*/  }
+    public void hide() { /**empty*/   }
 }
 

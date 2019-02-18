@@ -69,7 +69,7 @@ public class CombatScreen extends BaseScreen {
     private int animationIndex = 0;
     private String displayText = "";
 
-    public CombatScreen(final PirateGame pirateGame, Ship enemy){
+    public CombatScreen(final PirateGame pirateGame, Ship enemy){/**Initialises the combat screen taking the PirateGame and enemy ship as parameters. It loads the skin and buttons for the screen as well as both ship images and health bars.*/
         // Calls superclass BaseScreen
         super(pirateGame);
 

@@ -17,6 +17,7 @@ public class BaseActor extends Group {
    	private Department department;
 
 	//Constructor
+	/**Initialises the base actor type wth a region as well as the value null being assigned to boundedPolygon, college and department*/
 	public BaseActor() {
 		super();
 		this.region = new TextureRegion();
@@ -26,8 +27,19 @@ public class BaseActor extends Group {
 	}
 	
 	//Getters
-	public Department getDepartment() { return department; }
-	public College getCollege() { return college; }
+	/**Returns the department of the actor
+	 * @return department
+	 */
+	public Department getDepartment() {
+		return department; }
+	/**Returns the college of the actor
+	 * @return oollege
+	 */
+	public College getCollege() {
+		return college; }
+	/**Returns the bounding area of a polygon
+	 * @return boundingPolygon
+	 */
 	public Polygon getBoundingPolygon() {
 		boundingPolygon.setPosition(getX(), getY());
 		boundingPolygon.setRotation(getRotation());
@@ -35,12 +47,22 @@ public class BaseActor extends Group {
 	}
 	
 	//Setters
-	public void setDepartment(Department department) { this.department = department; }
-	public void setCollege(College college) { this.college = college; }
+	/**Sets the department of an actor.
+	 * @param department
+	 */
+	public void setDepartment(Department department) {
+		this.department = department; }
+	/**Sets the college of an actor
+	 * @param college
+	 */
+	public void setCollege(College college) {
+		this.college = college; }
+	/**Sets the origin of an actor at the center of the actor*/
 	public void setOriginCentre() {
 		if (getWidth() == 0) System.err.println("error: actor size not set");
 		setOrigin(getWidth()/2,getHeight()/2);
 	}
+	/**Sets the boundary of an actor based on its width and height*/
 	public void setRectangleBoundary() {
 		float w = getWidth();
 		float h = getHeight();
@@ -48,6 +70,7 @@ public class BaseActor extends Group {
 		boundingPolygon = new Polygon(vertices);
 		boundingPolygon.setOrigin(getOriginX(), getOriginY());
 	}
+
 	public void setEllipseBoundary() {
 		// number of vertices;
 		int n = 8;
@@ -66,6 +89,10 @@ public class BaseActor extends Group {
 	}
 
 	//draws the batch
+	/**Draws the batch
+	 * @param batch
+	 * @param parentAlpha
+	 */
 	public void draw(Batch batch, float parentAlpha) {
 		Color c = getColor();
 		batch.setColor(c.r, c.g, c.b, c.a);
@@ -81,9 +108,12 @@ public class BaseActor extends Group {
 	 this BaseActor
 	 * along minimum translation vector until there is no
 	 overlap.
+	 *@param other Another BaseActor type object on the screen
+	 * @param resolve A boolesn to say if there is an overlap
+
 	 */
 	public boolean overlaps(BaseActor other, boolean resolve) {
-		Polygon poly1 = this.getBoundingPolygon();
+	 	Polygon poly1 = this.getBoundingPolygon();
 		Polygon poly2 = other.getBoundingPolygon();
 		if (!poly1.getBoundingRectangle().overlaps(poly2.getBoundingRectangle())) return false;
 		Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();

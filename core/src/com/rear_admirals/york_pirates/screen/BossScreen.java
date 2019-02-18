@@ -12,7 +12,7 @@ import static com.rear_admirals.york_pirates.ShipType.Warship;
 public class BossScreen extends CombatScreen {
 
     //Constructor
-    public BossScreen(PirateGame game) {
+    public BossScreen(PirateGame game) {/***/
         super(game, new Ship(Warship, "YSJ Admiral", new College("YSJ")));
     }
 }

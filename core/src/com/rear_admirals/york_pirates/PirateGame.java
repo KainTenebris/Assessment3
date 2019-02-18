@@ -28,21 +28,41 @@ public class PirateGame extends Game {
 	//no constructor. Instead use the default constructor from the super, Game()
 	
 	//Getters
+	/**Returns the skin which is the font for the the in-game labels
+	 * @reutrn skin This is the font of the game
+	 */
 	public Skin getSkin() { return this.skin; }
+	/**Initialises and returns the player
+	 * @return player Returns the player
+	 */
 	public Player getPlayer() { return this.player; }
+	/**Initialises and returns the sailing scene
+	 * @return sailingScene*/
 	public Screen getSailingScene() { return this.sailingScene; }
 	
 	//Setters
+	/**Initialises the skin (label font)
+	 *@param skin This is the label font
+	 */
 	public void setSkin(Skin skin) { this.skin = skin; }
+	/** Initialises and sets the sailing scene
+	 * @param screen This is the sailing screen image
+	 */
 	public void setSailingScene(Screen screen) { this.sailingScene = screen; }
 
 	//calls the reset, then sets the screen to main menu
+	/**Calls the reset and then sets the screen to the Main menu of the pirate game
+	 */
 	public void create(){
 		reset();
 		setScreen(new MainMenu(this));
 	}
 
 	//Basically a constructor. Called when starting the game and when returning to the main menu.
+	/**Resets the game to initial conditions.It initialises the spriteBatch that draws the sprites on the screen,
+	 the font for the labels and the standard libgdx font. This also includes creating the map initialising 5 colleges and
+	 3 departments and putting them on the map
+	 */
 	public void reset() {
 		this.skin = new Skin(Gdx.files.internal("flat-earth-ui.json"));
 		this.font = new BitmapFont();
@@ -69,6 +89,7 @@ public class PirateGame extends Game {
 	}
 
 	//clears screen
+	/**This clears the screen by disposing of the sprites and labels*/
 	@Override
 	public void dispose() {
 		batch.dispose();
@@ -76,6 +97,7 @@ public class PirateGame extends Game {
 	}
 
 	//draws screen
+	/**This draws the screen*/
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
