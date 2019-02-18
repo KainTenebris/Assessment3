@@ -46,7 +46,10 @@ public class MiniGameScreen extends BaseScreen{
     private TextButton textBox;
     private TextButton winLose;
 
-    //Constructor
+    /**
+    Initialises all of the textures, buttons, initial card values, gets the required gold values from Player,
+    and any other initialisations required for the MiniGame.
+    **/
     public MiniGameScreen(final PirateGame main){
         super(main);
         this.player = main.getPlayer();
@@ -259,7 +262,10 @@ public class MiniGameScreen extends BaseScreen{
         Gdx.input.setInputProcessor(uiStage);
     }
 
-    //makes the cards visible
+    /**
+    * Makes the specified card visible after pressing higher/lower.
+    * @param card The specified card to reveal.
+    **/
     private void turn(Integer card){
         switch (card){
             case 1:     card1.setVisible(true);
@@ -274,7 +280,10 @@ public class MiniGameScreen extends BaseScreen{
         }
     }
 
-    //starts the game
+    /*
+    * Reveals the first card and starts the game.
+    * Called after selecting an amount to bet.
+    */
     private void play(){
         stage = 1;
         update(bet_amount);
@@ -285,7 +294,9 @@ public class MiniGameScreen extends BaseScreen{
         turn(stage);
     }
 
-    //updates values of bet_amount and gold_available on the screen and buttons
+    /**
+    * Updates values of bet_amount and gold_available on the screen and buttons
+    **/
     public void update(float delta){
         bet_num_label.setText(bet_amount.toString());
         gold_num_label.setText(gold_available.toString());
@@ -300,13 +311,16 @@ public class MiniGameScreen extends BaseScreen{
         full_bet.setText("" + this.gold_available);
     }
 
-    //for the higher/lower buttons
-    //carries out the game
+    /**
+    * Adds a ClickListener to the specified higher/lower button to turn the next card and advance the game.
+    * @param button The button to add a ClickListener to.
+    * @param high True if the button is the higher button, false otherwise.
+    * @throws IllegalArgumentException if the button is used after it should be possible to - i.e. if all 4 cards are revealed.
+    **/
     private void buttonListener(TextButton button, final Boolean high){
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println(stage);
                 switch (stage){
                     case 1:     turn(stage+1);
                                 if (high == (card2_val>card1_val)){
@@ -332,7 +346,6 @@ public class MiniGameScreen extends BaseScreen{
                                 break;
                     case 3:     turn(stage+1);
                                 if (high == (card4_val>card3_val)){
-                                    System.out.println("huh");
                                     gold_available += 2*bet_amount;
                                     winLose.setText("You Win! Congratulations!");
                                 } else {
@@ -350,8 +363,11 @@ public class MiniGameScreen extends BaseScreen{
         });
     }
 
-    //for the bet buttons
-    //updates the values of bet_amount and gold_available in the variables
+    /**
+    * Adds a ClickListener to the bet buttons to start the game/take the required money from the player.
+    * @param button The button to add the ClickListener to.
+    * @param percent The percent of the player's gold to be played with.
+    **/
     private void buttonListener(TextButton button, final double percent){
         button.addListener(new ClickListener(){
             @Override
