@@ -50,9 +50,10 @@ public class PirateGame extends Game {
 	 */
 	public void setSailingScene(Screen screen) { this.sailingScene = screen; }
 
-	//calls the reset, then sets the screen to main menu
-	/**Calls the reset and then sets the screen to the Main menu of the pirate game
-	 */
+	/**
+	* Calls the reset and then sets the screen to the Main menu of the pirate game
+	* Called when starting the game
+	*/
 	public void create(){
 		reset();
 		setScreen(new MainMenu(this));
@@ -106,7 +107,7 @@ public class PirateGame extends Game {
 	}
 
 	/*
-		Things to save:
+		Things to save/load:
 		player gold
 		player points
 		ship name;
@@ -119,7 +120,7 @@ public class PirateGame extends Game {
 		ships college name (just use colleges.get() on load);
 		ship position
 		allied colleges
-		 */
+	*/
 	public void save() {
 		Preferences prefs = Gdx.app.getPreferences("pirategamesave");
 
