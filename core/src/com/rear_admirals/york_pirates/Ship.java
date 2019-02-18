@@ -87,7 +87,7 @@ public class Ship extends PhysicsActor {
 	 * @param accuracy The ship's accuracy
 	 * @param attack The ship's attack stat
 	 * @param defence The ship's defence stat
-	 * @param isBoss If the boss is dead or not
+	 * @param isBoss If this ship is a college boss
 	 * This takes attack, defence, accuracy, type, college, name and is boss as parameters*/
 	public Ship(int attack, int defence, int accuracy, ShipType type, College college, String name, boolean isBoss) {
 		this.attack=attack;
@@ -102,7 +102,18 @@ public class Ship extends PhysicsActor {
 		this.isBoss = isBoss;
 		setupShip();
 	}
-
+	
+	//Constructor
+	/**Initialises the ship and all its characteristics such as attack, defence, accuracy, college, type and health.
+	 * @param attack The ship's attack stat
+	 * @param defence The ship's defence stat
+	 * @param accuracy The ship's accuracy
+	 * @param type This is the type of ship
+	 * @param college This is the college the  ship belongs to
+	 * @param name This is the name of the ship
+	 * @param health The health the ship starts with
+	 * @param healthMAX the max HP the ship can have
+	 * This takes attack, defence, accuracy, type, college, name and is boss as parameters*/
 	public Ship(int attack, int defence, int accuracy, ShipType type, College college, String name, int health, int healthMax) {
 		this.attack = attack;
 		this.defence = defence;
@@ -181,7 +192,6 @@ public class Ship extends PhysicsActor {
 		return this.isBoss; }
 	
 	//Setters
-<<<<<<< Updated upstream
 	public void setCollege(College college) { this.college = college; }
 	public void setAttack(int attack) { this.attack = attack; }
 	public void setName(String name) { this.name = name; }
@@ -190,7 +200,7 @@ public class Ship extends PhysicsActor {
 	public void setHealthMax(int health) { this.healthMax = health; }
 	public void setType(ShipType type) { this.type = type; }
 	public void damage(int amt) { health = health - amt; }
-=======
+	
 	/**Sets the college of the ship
 	 * @param college This is the ship's college
 	 */
@@ -229,17 +239,16 @@ public class Ship extends PhysicsActor {
 	/**Sets the defence of the ship as well as the max health
 	 * @param defence An integer variable for the ship's defence
 	 */
->>>>>>> Stashed changes
 	public void setDefence(int defence) {
         	this.defence = defence;
         	this.healthMax = type.getHealth() + defence;
     	}
 
-	//controls movement of ship
 	/**Enables the player to move the ship by changing the direction the ship is facing using the left and right input keys
 	 * @param dt The time the key is pressed for
 	 */
-	public void playerMove(float dt) {		this.setAccelerationXY(0,0);
+	public void playerMove(float dt) {
+		this.setAccelerationXY(0,0);
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			this.rotateBy(90 * dt);
 		}
@@ -254,11 +263,10 @@ public class Ship extends PhysicsActor {
 		}
 	}
 
-	//draws batch
-/**Draws the batch
- * @param alpha
- * @param batch
- */
+	/**Draws the batch
+ 	* @param alpha
+	* @param batch
+ 	*/
 	@Override
 	public void draw(Batch batch, float alpha){
 		batch.setColor(1,1,1,alpha);
