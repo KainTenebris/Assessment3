@@ -28,17 +28,17 @@ public class BaseActor extends Group {
 	
 	//Getters
 	/**Returns the department of the actor
-	 * @return department
+	 * @return Department
 	 */
 	public Department getDepartment() {
 		return department; }
 	/**Returns the college of the actor
-	 * @return oollege
+	 * @return College
 	 */
 	public College getCollege() {
 		return college; }
 	/**Returns the bounding area of a polygon
-	 * @return boundingPolygon
+	 * @return BoundingPolygon
 	 */
 	public Polygon getBoundingPolygon() {
 		boundingPolygon.setPosition(getX(), getY());
@@ -48,12 +48,12 @@ public class BaseActor extends Group {
 	
 	//Setters
 	/**Sets the department of an actor.
-	 * @param department
+	 * @param Department
 	 */
 	public void setDepartment(Department department) {
 		this.department = department; }
 	/**Sets the college of an actor
-	 * @param college
+	 * @param College
 	 */
 	public void setCollege(College college) {
 		this.college = college; }
@@ -62,6 +62,7 @@ public class BaseActor extends Group {
 		if (getWidth() == 0) System.err.println("error: actor size not set");
 		setOrigin(getWidth()/2,getHeight()/2);
 	}
+	
 	/**Sets the boundary of an actor based on its width and height*/
 	public void setRectangleBoundary() {
 		float w = getWidth();
@@ -70,7 +71,8 @@ public class BaseActor extends Group {
 		boundingPolygon = new Polygon(vertices);
 		boundingPolygon.setOrigin(getOriginX(), getOriginY());
 	}
-
+	
+	/**Sets the boundary of an actor based on its width and height*/
 	public void setEllipseBoundary() {
 		// number of vertices;
 		int n = 8;
@@ -88,9 +90,8 @@ public class BaseActor extends Group {
 		boundingPolygon.setOrigin(getOriginX(), getOriginY());
 	}
 
-	//draws the batch
-	/**Draws the batch
-	 * @param batch
+	/**Draws the actor
+	 * @param batch - the batch used to draw
 	 * @param parentAlpha
 	 */
 	public void draw(Batch batch, float parentAlpha) {
@@ -108,9 +109,9 @@ public class BaseActor extends Group {
 	 this BaseActor
 	 * along minimum translation vector until there is no
 	 overlap.
-	 *@param other Another BaseActor type object on the screen
-	 * @param resolve A boolesn to say if there is an overlap
-
+	 * @param other Another BaseActor type object on the screen
+	 * @param resolve A boolean to say whether the actor should be moved to resolve an overlap
+	 * @return Boolean - true if they overlap, false otherwise
 	 */
 	public boolean overlaps(BaseActor other, boolean resolve) {
 	 	Polygon poly1 = this.getBoundingPolygon();
