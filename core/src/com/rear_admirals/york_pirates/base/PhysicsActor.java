@@ -44,7 +44,7 @@ public class PhysicsActor extends BaseActor {
 
 	//Setters
 	/**Sets the deceleration.
-	 * @param d A float representing decleration value
+	 * @param d A float representing deceleration value
 	 */
 	public void setDeceleration(float d) {
 		deceleration = d;}
