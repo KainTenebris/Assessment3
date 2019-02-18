@@ -1,7 +1,7 @@
 package com.rear_admirals.york_pirates;
 
 import com.badlogic.gdx.graphics.Texture;
-
+/**Sets the variables all shipTypes require such as an attack, defence, accuracy, health, texture and a name*/
 public class ShipType {
 	private int attack;
 	private int defence;
@@ -11,6 +11,13 @@ public class ShipType {
 	private Texture texture;
 
 	//Constructor
+	/**Initialises the shipType
+	 * @param defence The ship's defence
+	 * @param health The ship's health
+	 * @param accuracy The ship's accuracy
+	 * @param name The name of the ship
+	 * @param attack The attack of the ship
+	 */
 	public ShipType (String name, int attack, int defence, int accuracy, int health) {
 		this.name = name;
 		this.attack = attack;
@@ -20,11 +27,31 @@ public class ShipType {
 	}
 
 	//Getters
-	public String getName() { return name; }
-	public int getAttack() { return attack; }
-	public int getDefence() { return defence; }
-	public int getAccuracy() { return accuracy; }
-	public int getHealth() { return health; }
+	/**Returns shipType name
+	 * @return name
+	 */
+	public String getName() {
+		return name; }
+	/**Returns shipType attack
+	 * @return attack
+	 */
+	public int getAttack() {
+		return attack; }
+	/**Returns shipType defence
+	 * @return defence
+	 */
+	public int getDefence() {
+		return defence; }
+	/**Returns shipType accuracy
+	 * @return accuracy
+	 */
+	public int getAccuracy() {
+		return accuracy; }
+	/**Return shipType health
+	 * @return health
+	 */
+	public int getHealth() {
+		return health; }
 
 	// Static Ship Types go here
 //	public static ShipType Sloop = new ShipType("Sloop", 4, 4, 7, 80);

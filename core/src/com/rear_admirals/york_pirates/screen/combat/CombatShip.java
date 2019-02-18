@@ -9,6 +9,10 @@ public class CombatShip extends BaseActor {
     private Texture texture;
 
     //Constructor
+    /**Initialises the Combat ship with a texture, size and bounds
+     * @param ship_size The size of the ship
+     * @param shipFile A string for the texture of the ship
+     */
     public CombatShip(String shipFile, float ship_size){
         this.texture = new Texture(shipFile);
         this.ship_size = ship_size;
@@ -16,6 +20,10 @@ public class CombatShip extends BaseActor {
     }
 
     //draws the ship
+    /**Draws the ship
+     * @param batch
+     * @param alpha
+     */
     @Override
     public void draw(Batch batch, float alpha){
         batch.setColor(1,1,1, alpha);

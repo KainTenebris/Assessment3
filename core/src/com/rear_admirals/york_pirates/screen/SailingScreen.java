@@ -67,7 +67,7 @@ public class SailingScreen extends BaseScreen {
     private boolean isFinalBossReady;
 
     //Constructor
-    public SailingScreen(PirateGame main){
+    public SailingScreen(PirateGame main){/**Initialises the sailing screen with a playerShip, lists of obstacles and regions, creates labels and puts them in a hash map. It also places the objects on the map such as departments and colleges as well as the regions. This takes the PirateGame type as its parameters*/
         super(main);
 
         this.isFinalBossReady = false;

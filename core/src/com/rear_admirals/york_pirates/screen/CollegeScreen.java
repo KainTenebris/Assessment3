@@ -19,7 +19,7 @@ public class CollegeScreen extends BaseScreen {
     private Label goldLabel;
     private int toHeal;
 
-    public CollegeScreen(PirateGame main, College college){
+    public CollegeScreen(PirateGame main, College college){/**Initialises the college screen. Takes the PirateGame and college as parameters*/
         super(main);
         this.player = main.getPlayer();
         toHeal = player.getPlayerShip().getHealthMax() - player.getPlayerShip().getHealth();
